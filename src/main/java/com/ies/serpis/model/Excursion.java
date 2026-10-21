@@ -7,11 +7,11 @@ public class Excursion {
     private int id_excursion, id_grupo;
     private String destino;
     private int duracion;
-    private LocalDate fecha;
+    private String fecha;
     private double importe;
     private String estado;
 
-    public Excursion(int id_excursion, int id_grupo, String destino, int duracion, LocalDate fecha, double importe, String estado) {
+    public Excursion(int id_excursion, int id_grupo, String destino, int duracion, String fecha, double importe, String estado) {
         this.id_excursion = id_excursion;
         this.id_grupo = id_grupo;
         this.destino = destino;
@@ -21,7 +21,7 @@ public class Excursion {
         this.estado = estado;
     }
 
-    public Excursion(int id_grupo, String destino, int duracion, LocalDate fecha, double importe, String estado) {
+    public Excursion(int id_grupo, String destino, int duracion, String fecha, double importe, String estado) {
         this.id_grupo = id_grupo;
         this.destino = destino;
         this.duracion = duracion;
@@ -65,13 +65,11 @@ public class Excursion {
         this.duracion = duracion;
     }
 
-    public LocalDate getFecha() {
+    public String getFecha() {
         return fecha;
     }
 
-    public void setFecha(LocalDate fecha) {
-        this.fecha = fecha;
-    }
+    public void setFecha(String fecha) { this.fecha = fecha; }
 
     public double getImporte() {
         return importe;
