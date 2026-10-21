@@ -1,0 +1,109 @@
+package com.ies.serpis.dao;
+
+import com.ies.serpis.model.Grupo;
+
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+public class GrupoDaoJdbc implements Dao <Grupo, Integer> {
+    @Override
+    public Integer crear(Grupo grupo) {
+        String sql = "INSERT INTO grupo(curso, etapa_educativa, cantidad_alumnos) VALUES (?,?,?)";
+        try (
+                Connection conexion = Conexion.establecerConexion();
+                PreparedStatement sentencia = conexion.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+        ) {
+            sentencia.setString(1, grupo.getCurso());
+            sentencia.setString(2, grupo.getEtapa_educativa());
+            sentencia.setInt(3, grupo.getCantidad_alumnos());
+
+            int filas = sentencia.executeUpdate();
+
+            if (filas != 1) {
+                throw new RuntimeException("El INSERT no afectó exactamente a 1 fila (filas = " + filas + ")");
+            }
+
+            try (ResultSet keys = sentencia.getGeneratedKeys()) {
+                if (keys.next()) {
+                    int id = keys.getInt(1);
+                    grupo.setId_grupo(id);
+                    return id;
+                } else {
+                    throw new RuntimeException("Asegúrate que el id es autoincrement. No hay clave generada.");
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Error creando el grupo. Error provocado: " + e);
+
+        }
+    }
+
+    @Override
+    public Optional<Grupo> encontrarPorID(Integer id) {
+        String sql = "SELECT * FROM grupo WHERE id_grupo = ?";
+        try (
+                Connection conexion = Conexion.establecerConexion();
+                PreparedStatement sentencia = conexion.prepareStatement(sql);
+        ) {
+            sentencia.setInt(1, id);
+
+            try (ResultSet rs = sentencia.executeQuery();) {
+                if (rs.next()) {
+                    return Optional.of(new Grupo(rs.getInt("id_grupo"),
+                            rs.getString("curso"),
+                            rs.getString("etapa_educativa"),
+                            rs.getInt("cantidad_alumnos")));
+                }
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Error buscando el grupo. ID incorrecta.");
+        }
+        return Optional.empty();
+    }
+
+    @Override
+    public List<Grupo> encontrarTodos() {
+        List<Grupo> lista = new ArrayList<>();
+        String sql = "SELECT * FROM grupo";
+        try (
+                Connection conexion = Conexion.establecerConexion();
+                PreparedStatement sentencia = conexion.prepareStatement(sql);
+                ResultSet rs = sentencia.executeQuery();
+        ) {
+            while (rs.next()) {
+                lista.add(new Grupo(rs.getInt("id_grupo"),
+                        rs.getString("curso"),
+                        rs.getString("etapa_educativa"),
+                        rs.getInt("cantidad_alumnos")));
+
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("No hay datos sobre grupos en la base de datos.");
+        }
+        return lista;
+    }
+
+    @Override
+    public boolean borrar(Integer id) {
+        String sql = "DELETE FROM grupo WHERE id_grupo = ?";
+        try (
+                Connection conexion = Conexion.establecerConexion();
+                PreparedStatement sentencia = conexion.prepareStatement(sql);
+        ) {
+            sentencia.setInt(1, id);
+            return sentencia.executeUpdate() == 1;
+        } catch (SQLException e) {
+            throw new RuntimeException("Error al borrar el grupo", e);
+        }
+    }
+
+    //Este metodo de abajo no se va a utilizar
+
+    @Override
+    public boolean actualizar(Grupo grupo) {
+        throw new UnsupportedOperationException("No está permitido actualizar un grupo");
+    }
+}

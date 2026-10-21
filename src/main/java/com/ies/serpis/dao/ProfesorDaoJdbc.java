@@ -23,7 +23,7 @@ public class ProfesorDaoJdbc implements Dao<Profesor, Integer>{
 
             int filas = sentencia.executeUpdate();
 
-            if (filas != 1) { //Tengo que modificar esto y crear una excepcion personalizada
+            if (filas != 1) {
                 throw new RuntimeException("El INSERT no afectó exactamente a 1 fila (filas = " + filas + ")");
             }
 

@@ -11,11 +11,14 @@ public class Controller {
 
     private final ConsolaView view;
     private final ProfesorController profesor_controller;
+    private final GrupoController grupo_controller;
 
-    public Controller(ConsolaView view, ProfesorController profesorController) {
+    public Controller(ConsolaView view, ProfesorController profesorController, GrupoController grupoController) {
         this.view = view;
         profesor_controller = profesorController;
+        grupo_controller = grupoController;
     }
+
 
     public void run() {
         int op;
@@ -23,7 +26,9 @@ public class Controller {
             op = view.menu();
             try {
                 switch (op) {
-                    case 1 -> profesor_controller.crear();
+                    case 1 -> profesor_controller.crearProfesor();
+                    case 2 -> grupo_controller.crearGrupo();
+                    case 3 -> grupo_controller.borrarGrupoPorId();
                     case 0 -> view.info(mostrarDespedida());
                     default -> view.error("Opción inválida, inténtalo de nuevo.");
                 }
@@ -35,7 +40,7 @@ public class Controller {
         } while (op != 0);
     }
 
-    public String mostrarDespedida() {
+    private String mostrarDespedida() {
         String hora = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm"));
         String fecha = LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
         return "¡Adiós! Sesión finalizada a las " + hora + " del día " + fecha;

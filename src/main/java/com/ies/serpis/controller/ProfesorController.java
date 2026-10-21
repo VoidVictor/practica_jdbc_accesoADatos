@@ -14,7 +14,7 @@ public class ProfesorController {
         this.view = view;
     }
 
-    public void crear() {
+    public void crearProfesor() {
         String nombre = view.pedirString("Nombre");
         String apellidos = view.pedirString("Apellidos");
         int anyo_nacimiento = view.pedirEntero("Año de nacimiento");
@@ -22,6 +22,10 @@ public class ProfesorController {
 
         Integer id = service.crearProfesor(nombre, apellidos, anyo_nacimiento, telefono);
         view.info("Profesor creado con id " + id);
+    }
+
+    public void listarProfesores(){
+        view.listarProfesores(service.listarProfesores());
     }
 
 

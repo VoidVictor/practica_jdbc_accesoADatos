@@ -1,8 +1,10 @@
 package com.ies.serpis.app;
 
 import com.ies.serpis.controller.Controller;
+import com.ies.serpis.controller.GrupoController;
 import com.ies.serpis.controller.ProfesorController;
 import com.ies.serpis.dao.ProfesorDaoJdbc;
+import com.ies.serpis.service.GrupoService;
 import com.ies.serpis.service.ProfesorService;
 import com.ies.serpis.view.ConsolaView;
 
@@ -15,7 +17,10 @@ public class Application {
         ProfesorService profesorService = new ProfesorService();
         ProfesorController profesorController = new ProfesorController(profesorService, view);
 
-        Controller controller = new Controller(view, profesorController);
+        GrupoService grupoService = new GrupoService();
+        GrupoController grupoController = new GrupoController(view, grupoService);
+
+        Controller controller = new Controller(view, profesorController, grupoController);
         controller.run();
     }
 }

@@ -20,7 +20,7 @@ public class ProfesorService {
         return dao.crear(new Profesor(nombre, apellidos, anyo_nacimiento, telefono));
     }
 
-    public List<Profesor> listarProfesores () {
+    public List<Profesor> listarProfesores() {
         return dao.encontrarTodos();
     }
 
@@ -28,6 +28,8 @@ public class ProfesorService {
         if (id <= 0) throw new IdInvalidoException("Los IDs empiezan a partir de 1");
         return dao.encontrarPorID(id);
     }
+
+    // ---------- MÉTODOS AUXILIARES ----------
 
     private void validarCampos(String nombre, String apellidos, int anyo_nacimiento, String telefono) {
         if (nombre == null || nombre.isBlank())throw new CampoObligatorioException("Es obligatorio poner el nombre.");
