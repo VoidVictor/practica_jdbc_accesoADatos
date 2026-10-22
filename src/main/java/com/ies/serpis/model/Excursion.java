@@ -1,6 +1,6 @@
 package com.ies.serpis.model;
 
-import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class Excursion {
 
@@ -10,6 +10,7 @@ public class Excursion {
     private String fecha;
     private double importe;
     private String estado;
+    public static final DateTimeFormatter FORMATO_FECHA = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     public Excursion(int id_excursion, int id_grupo, String destino, int duracion, String fecha, double importe, String estado) {
         this.id_excursion = id_excursion;

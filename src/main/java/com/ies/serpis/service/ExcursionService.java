@@ -54,12 +54,12 @@ public class ExcursionService {
         if (fecha == null || fecha.isBlank())throw new CampoObligatorioException("Es obligatorio poner la fecha.");
         LocalDate fechaConvertida;
         try {
-            DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            DateTimeFormatter formatoFecha = Excursion.FORMATO_FECHA;
             fechaConvertida = LocalDate.parse(fecha, formatoFecha);
         } catch (DateTimeParseException e){
             throw new FechaInvalidaException("La fecha debe contener justo 10 caracteres. Formato dd/MM/yyyy.");
         }
-        if (!fechaConvertida.isBefore(LocalDate.now().plusDays(10))) throw new FechaInvalidaException("La excursión debe planearse como mínimo con 10 días de antelación.");
+        if (fechaConvertida.isBefore(LocalDate.now().plusDays(10))) throw new FechaInvalidaException("La excursión debe planearse como mínimo con 10 días de antelación.");
     }
 
     private void validarCampos (String destino, int duracion, double importe){
@@ -70,6 +70,6 @@ public class ExcursionService {
 
     private void validarExcursion (Integer id){
         if (!daoExcursion.existeExcursion(id)) throw new ExcursionInvalidaException("La excursión no existe con el ID " + id);
-        if (!daoExcursion.estaFinalizada(id)) throw new ExcursionInvalidaException("No se puede borrar/modificar una que excursión que no esté finalizada.");
+        if (daoExcursion.estaFinalizada(id)) throw new ExcursionInvalidaException("No se puede borrar/modificar una que excursión que no esté finalizada.");
     }
 }

@@ -4,6 +4,7 @@ import com.ies.serpis.model.Excursion;
 import com.ies.serpis.model.Grupo;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -22,7 +23,7 @@ public class ExcursionDaoJdbc implements Dao<Excursion, Integer> {
             sentencia.setInt(1,excursion.getId_grupo());
             sentencia.setString(2,excursion.getDestino());
             sentencia.setInt(3, excursion.getDuracion());
-            sentencia.setString(4, excursion.getFecha());
+            sentencia.setDate(4, Date.valueOf(LocalDate.parse(excursion.getFecha(), Excursion.FORMATO_FECHA)));
             sentencia.setDouble(5,excursion.getImporte());
             sentencia.setString(6, excursion.getEstado());
 
@@ -61,7 +62,7 @@ public class ExcursionDaoJdbc implements Dao<Excursion, Integer> {
                             rs.getInt("id_grupo"),
                             rs.getString("destino"),
                             rs.getInt("duracion"),
-                            rs.getString("fecha"),
+                            rs.getDate("fecha").toLocalDate().format(Excursion.FORMATO_FECHA),
                             rs.getDouble("importe"),
                             rs.getString("estado")));
                 }
@@ -87,7 +88,7 @@ public class ExcursionDaoJdbc implements Dao<Excursion, Integer> {
                         rs.getInt("id_grupo"),
                         rs.getString("destino"),
                         rs.getInt("duracion"),
-                        rs.getString("fecha"),
+                        rs.getDate("fecha").toLocalDate().format(Excursion.FORMATO_FECHA),
                         rs.getDouble("importe"),
                         rs.getString("estado")));
 
@@ -103,7 +104,7 @@ public class ExcursionDaoJdbc implements Dao<Excursion, Integer> {
         try (Connection conexion = Conexion.establecerConexion();
              PreparedStatement sentencia = conexion.prepareStatement(sql)) {
 
-            sentencia.setString(1, fecha);
+            sentencia.setDate(1, Date.valueOf(LocalDate.parse(fecha, Excursion.FORMATO_FECHA)));
             sentencia.setInt(2, id);
 
             return sentencia.executeUpdate() == 1;
@@ -141,7 +142,7 @@ public class ExcursionDaoJdbc implements Dao<Excursion, Integer> {
                 throw new RuntimeException("No existe ninguna excursión el ID " + id);
             }
         } catch (SQLException e) {
-            throw new RuntimeException("No se ha podido acceder a la base de datos al comprobar si existe el grupo.", e);
+            throw new RuntimeException("No se ha podido acceder a la base de datos al comprobar si existe la excursión.", e);
         }
     }
 
@@ -156,7 +157,7 @@ public class ExcursionDaoJdbc implements Dao<Excursion, Integer> {
                 return rs.next();
             }
         } catch (SQLException e) {
-            throw new RuntimeException("No se ha podido acceder a la base de datos al comprobar si existe el grupo.", e);
+            throw new RuntimeException("No se ha podido acceder a la base de datos al comprobar si existe la excursión.", e);
         }
     }
 
