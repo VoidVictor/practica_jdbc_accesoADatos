@@ -89,14 +89,7 @@ public class Excursion {
 
     @Override
     public String toString() {
-        return "Excursion{" +
-                "ID = " + id_excursion +
-                ", ID del Grupo = " + id_grupo +
-                ", Destino='" + destino + '\'' +
-                ", Duración (en horas) = " + duracion +
-                ", Fecha = " + fecha +
-                ", Importe = " + importe +
-                ", Estado = '" + estado + '\'' +
-                '}';
+        return "[ID " + id_excursion + "] " + destino + " · " + fecha + " · " + duracion + " h · "
+                + String.format("%.2f €", importe) + " · " + estado;
     }
 }

@@ -117,6 +117,21 @@ public class GrupoDaoJdbc implements Dao <Grupo, Integer> {
         }
     }
 
+    public boolean existeGrupo (Integer id){
+        String sql = "SELECT * FROM grupo WHERE id_grupo = ?";
+        try (
+                Connection conexion = Conexion.establecerConexion();
+                PreparedStatement sentencia = conexion.prepareStatement(sql);
+        ) {
+            sentencia.setInt(1, id);
+            try (ResultSet rs = sentencia.executeQuery();) {
+                return rs.next();
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("No se ha podido acceder a la base de datos al comprobar si existe el grupo.", e);
+        }
+    }
+
     //Este metodo de abajo no se va a utilizar
 
     @Override

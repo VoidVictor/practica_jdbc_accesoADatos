@@ -12,13 +12,14 @@ public class Controller {
     private final ConsolaView view;
     private final ProfesorController profesorController;
     private final GrupoController grupoController;
+    private final ExcursionController excursionController;
 
-    public Controller(ConsolaView view, ProfesorController profesorController, GrupoController grupoController) {
+    public Controller(ConsolaView view, ProfesorController profesorController, GrupoController grupoController, ExcursionController excursionController) {
         this.view = view;
         this.profesorController = profesorController;
         this.grupoController = grupoController;
+        this.excursionController = excursionController;
     }
-
 
     public void run() {
         int op;
@@ -29,6 +30,9 @@ public class Controller {
                     case 1 -> profesorController.crearProfesor();
                     case 2 -> grupoController.crearGrupo();
                     case 3 -> grupoController.borrarGrupoPorId();
+                    case 4 -> excursionController.crearExcursion();
+                    case 5 -> excursionController.borrarExcursion();
+                    case 6 -> excursionController.actualizarExcursion();
                     case 0 -> view.info(mostrarDespedida());
                     default -> view.error("Opción inválida, inténtalo de nuevo.");
                 }
