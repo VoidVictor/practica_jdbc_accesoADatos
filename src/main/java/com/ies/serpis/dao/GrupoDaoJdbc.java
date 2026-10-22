@@ -113,7 +113,7 @@ public class GrupoDaoJdbc implements Dao <Grupo, Integer> {
                 return rs.next();
             }
         } catch (SQLException e) {
-            throw new RuntimeException("Ya existe un curso con ese nombre");
+            throw new RuntimeException("No se ha podido acceder a la base de datos al comprobar el curso.", e);
         }
     }
 

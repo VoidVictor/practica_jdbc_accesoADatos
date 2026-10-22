@@ -46,7 +46,7 @@ public class GrupoService {
             case "ESO" -> "ESO";
             case "BACHILLERATO" -> "Bachillerato";
             case "FP" -> "FP";
-            default -> throw new EtapaInvalidaException("La etapa edcuativa debe ser ESO, Bachillerato o FP.");
+            default -> throw new EtapaInvalidaException("La etapa educativa debe ser ESO, Bachillerato o FP.");
         };
     }
 
@@ -57,7 +57,7 @@ public class GrupoService {
         return curso;
     }
 
-    private void validarCampos(int cantidad_alumnos) {
-        if (cantidad_alumnos <= 0) throw new CantidadInvalidaException("Debe haber al menos 1 alumno en el grupo");
+    private void validarCampos(int cantidadAlumnos) {
+        if (cantidadAlumnos <= 0) throw new CantidadInvalidaException("Debe haber al menos 1 alumno en el grupo");
     }
 }

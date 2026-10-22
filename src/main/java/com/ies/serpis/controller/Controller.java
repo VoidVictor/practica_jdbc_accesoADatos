@@ -34,6 +34,8 @@ public class Controller {
                 }
             } catch (ReglaNegocioException e) {
                 view.error(e.getMessage());
+            } catch (RuntimeException e) {
+                view.error("Error técnico: " + e.getMessage());
             }
         } while (op != 0);
     }

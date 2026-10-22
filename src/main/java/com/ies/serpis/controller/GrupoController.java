@@ -31,7 +31,7 @@ public class GrupoController {
         int id = view.pedirEntero("Indica el ID del grupo que deseas borrar");
         view.info("Grupo seleccionado: " + service.obtenerGrupoPorID(id));
         String decision = view.pedirString("¿Estás seguro/a de que deseas eliminar el grupo? (s/n)");
-        if (decision.charAt(0) == 's'){
+        if (decision.equalsIgnoreCase("s")) {
             view.info(service.borrarGrupo(id)? "Grupo eliminado correctamente":"No se ha podido eliminar el grupo");
         }
     }
