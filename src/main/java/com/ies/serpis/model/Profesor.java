@@ -65,12 +65,7 @@ public class Profesor {
 
     @Override
     public String toString() {
-        return "Profesor{" +
-                "ID = " + id_profesor +
-                ", Nombre = " + nombre +
-                ", Apellidos = '" + apellidos + '\'' +
-                ", Año de nacimiento = '" + anyoNacimiento + '\'' +
-                ", Teléfono = '" + telefono + '\'' +
-                '}';
+        return "[ID " + id_profesor + "] " + nombre + " " + apellidos
+                + " · Nacimiento: " + anyoNacimiento + " · Teléfono: " + telefono;
     }
 }

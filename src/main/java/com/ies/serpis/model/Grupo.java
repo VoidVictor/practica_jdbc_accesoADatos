@@ -55,11 +55,6 @@ public class Grupo {
 
     @Override
     public String toString() {
-        return "Grupo{" +
-                "ID = " + id_grupo +
-                ", Curso = '" + curso + '\'' +
-                ", Etapa educativa = '" + etapaEducativa + '\'' +
-                ", Cantidad de alumnos = " + cantidadAlumnos +
-                '}';
+        return "[ID " + id_grupo + "] " + curso + " · " + etapaEducativa + " · " + cantidadAlumnos + " alumnos";
     }
 }

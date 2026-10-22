@@ -26,9 +26,10 @@ public class GrupoService {
         return dao.encontrarTodos();
     }
 
-    public Optional<Grupo> obtenerGrupoPorID (Integer id){
+    public Grupo obtenerGrupoPorID(Integer id) {
         if (id <= 0) throw new IdInvalidoException("Los IDs empiezan a partir de 1");
-        return dao.encontrarPorID(id);
+        return dao.encontrarPorID(id)
+                .orElseThrow(() -> new IdInvalidoException("No existe ningún grupo con ID " + id));
     }
 
     public boolean borrarGrupo(Integer id){
@@ -51,7 +52,9 @@ public class GrupoService {
 
     private String validarCursoYFormatear (String curso){
         if (curso == null || curso.isBlank())throw new CampoObligatorioException("Es obligatorio poner el curso.");
-        return curso.toUpperCase();
+        curso = curso.toUpperCase();
+        if (dao.existeCurso(curso)) throw new CursoExistenteException("El grupo introducido ya existe.");
+        return curso;
     }
 
     private void validarCampos(int cantidad_alumnos) {

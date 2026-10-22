@@ -24,9 +24,10 @@ public class ProfesorService {
         return dao.encontrarTodos();
     }
 
-    public Optional<Profesor> obtenerProfesorPorID (Integer id){
+    public Profesor obtenerProfesorPorID(Integer id) {
         if (id <= 0) throw new IdInvalidoException("Los IDs empiezan a partir de 1");
-        return dao.encontrarPorID(id);
+        return dao.encontrarPorID(id)
+                .orElseThrow(() -> new IdInvalidoException("No existe ningún profesor con ID " + id));
     }
 
     // ---------- MÉTODOS AUXILIARES ----------
@@ -35,7 +36,7 @@ public class ProfesorService {
         if (nombre == null || nombre.isBlank())throw new CampoObligatorioException("Es obligatorio poner el nombre.");
         if (apellidos == null || apellidos.isBlank())throw new CampoObligatorioException("Es obligatorio poner los apellidos.");
         if (anyoNacimiento < (LocalDate.now().getYear()-67) || anyoNacimiento > (LocalDate.now().getYear()-18)) throw new AnioNacimientoInvalidoException("Error en el año de nacimiento. El profesor debe estar en edad legal para trabajar.");
-        if (telefono == null || nombre.isBlank())throw new CampoObligatorioException("Es obligatorio poner el teléfono.");
+        if (telefono == null || telefono.isBlank())throw new CampoObligatorioException("Es obligatorio poner el teléfono.");
         if (telefono.charAt(0) != '+') throw new TelefonoSinPrefijoException("El teléfono debe empezar con el prefijo internacional '+'. Por ejemplo +34 en España.");
     }
 
