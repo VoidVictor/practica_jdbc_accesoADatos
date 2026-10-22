@@ -2,21 +2,21 @@ package com.ies.serpis.model;
 
 public class Profesor {
 
-    private int id_profesor, anyo_nacimiento;
+    private int id_profesor, anyoNacimiento;
     private String nombre, apellidos, telefono;
 
-    public Profesor(int id_profesor, String nombre, String apellidos, int anyo_nacimiento,  String telefono) {
+    public Profesor(int id_profesor, String nombre, String apellidos, int anyoNacimiento, String telefono) {
         this.id_profesor = id_profesor;
         this.nombre = nombre;
         this.apellidos = apellidos;
-        this.anyo_nacimiento = anyo_nacimiento;
+        this.anyoNacimiento = anyoNacimiento;
         this.telefono = telefono;
     }
 
-    public Profesor(String nombre, String apellidos, int anyo_nacimiento, String telefono) {
+    public Profesor(String nombre, String apellidos, int anyoNacimiento, String telefono) {
         this.nombre = nombre;
         this.apellidos = apellidos;
-        this.anyo_nacimiento = anyo_nacimiento;
+        this.anyoNacimiento = anyoNacimiento;
         this.telefono = telefono;
     }
 
@@ -31,12 +31,12 @@ public class Profesor {
         this.id_profesor = id_profesor;
     }
 
-    public int getAnyo_nacimiento() {
-        return anyo_nacimiento;
+    public int getAnyoNacimiento() {
+        return anyoNacimiento;
     }
 
-    public void setAnyo_nacimiento(int anyo_nacimiento) {
-        this.anyo_nacimiento = anyo_nacimiento;
+    public void setAnyoNacimiento(int anyoNacimiento) {
+        this.anyoNacimiento = anyoNacimiento;
     }
 
     public String getNombre() {
@@ -69,7 +69,7 @@ public class Profesor {
                 "ID = " + id_profesor +
                 ", Nombre = " + nombre +
                 ", Apellidos = '" + apellidos + '\'' +
-                ", Año de nacimiento = '" + anyo_nacimiento + '\'' +
+                ", Año de nacimiento = '" + anyoNacimiento + '\'' +
                 ", Teléfono = '" + telefono + '\'' +
                 '}';
     }

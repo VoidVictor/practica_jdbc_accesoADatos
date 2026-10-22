@@ -15,10 +15,10 @@ public class GrupoController {
 
     public void crearGrupo() {
         String curso = view.pedirString("Curso");
-        String etapa_educativa = view.pedirString("Etapa educativa (ESO/Bachiller/FP)");
-        int cantidad_alumnos = view.pedirEntero("Número de alumnos del curso");
+        String etapaEducativa = view.pedirString("Etapa educativa (ESO/Bachillerato/FP)");
+        int cantidadAlumnos = view.pedirEntero("Número de alumnos del curso");
 
-        Integer id = service.crearGrupo(curso,etapa_educativa,cantidad_alumnos);
+        Integer id = service.crearGrupo(curso,etapaEducativa,cantidadAlumnos);
         view.info("Grupo creado con id " + id);
     }
 

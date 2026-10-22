@@ -2,20 +2,20 @@ package com.ies.serpis.model;
 
 public class Grupo {
 
-    private int id_grupo, cantidad_alumnos;
-    private String curso, etapa_educativa;
+    private int id_grupo, cantidadAlumnos;
+    private String curso, etapaEducativa;
 
-    public Grupo(int id_grupo, String curso, String etapa_educativa, int cantidad_alumnos) {
+    public Grupo(int id_grupo, String curso, String etapaEducativa, int cantidadAlumnos) {
         this.id_grupo = id_grupo;
         this.curso = curso;
-        this.etapa_educativa = etapa_educativa;
-        this.cantidad_alumnos = cantidad_alumnos;
+        this.etapaEducativa = etapaEducativa;
+        this.cantidadAlumnos = cantidadAlumnos;
     }
 
-    public Grupo(String curso, String etapa_educativa, int cantidad_alumnos) {
+    public Grupo(String curso, String etapaEducativa, int cantidadAlumnos) {
         this.curso = curso;
-        this.etapa_educativa = etapa_educativa;
-        this.cantidad_alumnos = cantidad_alumnos;
+        this.etapaEducativa = etapaEducativa;
+        this.cantidadAlumnos = cantidadAlumnos;
     }
 
     public Grupo() {
@@ -37,20 +37,20 @@ public class Grupo {
         this.curso = curso;
     }
 
-    public String getEtapa_educativa() {
-        return etapa_educativa;
+    public String getEtapaEducativa() {
+        return etapaEducativa;
     }
 
-    public void setEtapa_educativa(String etapa_educativa) {
-        this.etapa_educativa = etapa_educativa;
+    public void setEtapaEducativa(String etapaEducativa) {
+        this.etapaEducativa = etapaEducativa;
     }
 
-    public int getCantidad_alumnos() {
-        return cantidad_alumnos;
+    public int getCantidadAlumnos() {
+        return cantidadAlumnos;
     }
 
-    public void setCantidad_alumnos(int cantidad_alumnos) {
-        this.cantidad_alumnos = cantidad_alumnos;
+    public void setCantidadAlumnos(int cantidadAlumnos) {
+        this.cantidadAlumnos = cantidadAlumnos;
     }
 
     @Override
@@ -58,8 +58,8 @@ public class Grupo {
         return "Grupo{" +
                 "ID = " + id_grupo +
                 ", Curso = '" + curso + '\'' +
-                ", Etapa educativa = '" + etapa_educativa + '\'' +
-                ", Cantidad de alumnos = " + cantidad_alumnos +
+                ", Etapa educativa = '" + etapaEducativa + '\'' +
+                ", Cantidad de alumnos = " + cantidadAlumnos +
                 '}';
     }
 }

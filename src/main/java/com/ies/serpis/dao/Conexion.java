@@ -6,12 +6,12 @@ import java.sql.SQLException;
 
 public class Conexion {
 
-    private static final String url = "jdbc:mysql://localhost:3306/gestion_excursiones";
-    private static final String user = "root";
-    private static final String pass = "serpis";
+    private static final String URL = "jdbc:mysql://localhost:3306/gestion_excursiones";
+    private static final String USER = "root";
+    private static final String PASS = "serpis";
 
     public static Connection establecerConexion () throws SQLException {
-        return DriverManager.getConnection(url, user, pass);
+        return DriverManager.getConnection(URL, USER, PASS);
     }
 
 }

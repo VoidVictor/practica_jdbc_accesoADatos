@@ -13,13 +13,13 @@ public class GrupoService {
 
     private final GrupoDaoJdbc dao = new GrupoDaoJdbc();
 
-    public Integer crearGrupo (String curso, String etapa_educativa, int cantidad_alumnos){
+    public Integer crearGrupo (String curso, String etapaEducativa, int cantidadAlumnos){
 
         curso = validarCursoYFormatear(curso);
-        etapa_educativa = validarEtapaYFormatear(etapa_educativa);
-        validarCampos(cantidad_alumnos);
+        etapaEducativa = validarEtapaYFormatear(etapaEducativa);
+        validarCampos(cantidadAlumnos);
 
-        return dao.crear(new Grupo(curso, etapa_educativa, cantidad_alumnos));
+        return dao.crear(new Grupo(curso, etapaEducativa, cantidadAlumnos));
     }
 
     public List<Grupo> listarGrupos() {
@@ -38,10 +38,10 @@ public class GrupoService {
 
     // ---------- MÉTODOS AUXILIARES ----------
 
-    private String validarEtapaYFormatear (String etapa){
-        if (etapa == null || etapa.isBlank())throw new CampoObligatorioException("Es obligatorio poner la etapa educativa (ESO, Bachillerato o FP).");
-        etapa = etapa.toUpperCase();
-        return switch (etapa) {
+    private String validarEtapaYFormatear (String etapaEducativa){
+        if (etapaEducativa == null || etapaEducativa.isBlank())throw new CampoObligatorioException("Es obligatorio poner la etapa educativa (ESO, Bachillerato o FP).");
+        etapaEducativa = etapaEducativa.toUpperCase();
+        return switch (etapaEducativa) {
             case "ESO" -> "ESO";
             case "BACHILLERATO" -> "Bachillerato";
             case "FP" -> "FP";

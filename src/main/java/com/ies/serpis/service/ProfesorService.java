@@ -15,9 +15,9 @@ public class ProfesorService {
 
     private final ProfesorDaoJdbc dao = new ProfesorDaoJdbc();
 
-    public Integer crearProfesor (String nombre, String apellidos, int anyo_nacimiento, String telefono){
-        validarCampos(nombre, apellidos, anyo_nacimiento, telefono);
-        return dao.crear(new Profesor(nombre, apellidos, anyo_nacimiento, telefono));
+    public Integer crearProfesor (String nombre, String apellidos, int anyoNacimiento, String telefono){
+        validarCampos(nombre, apellidos, anyoNacimiento, telefono);
+        return dao.crear(new Profesor(nombre, apellidos, anyoNacimiento, telefono));
     }
 
     public List<Profesor> listarProfesores() {
@@ -31,10 +31,10 @@ public class ProfesorService {
 
     // ---------- MÉTODOS AUXILIARES ----------
 
-    private void validarCampos(String nombre, String apellidos, int anyo_nacimiento, String telefono) {
+    private void validarCampos(String nombre, String apellidos, int anyoNacimiento, String telefono) {
         if (nombre == null || nombre.isBlank())throw new CampoObligatorioException("Es obligatorio poner el nombre.");
         if (apellidos == null || apellidos.isBlank())throw new CampoObligatorioException("Es obligatorio poner los apellidos.");
-        if (anyo_nacimiento < (LocalDate.now().getYear()-67) || anyo_nacimiento > (LocalDate.now().getYear()-18)) throw new AnioNacimientoInvalidoException("Error en el año de nacimiento. El profesor debe estar en edad legal para trabajar.");
+        if (anyoNacimiento < (LocalDate.now().getYear()-67) || anyoNacimiento > (LocalDate.now().getYear()-18)) throw new AnioNacimientoInvalidoException("Error en el año de nacimiento. El profesor debe estar en edad legal para trabajar.");
         if (telefono == null || nombre.isBlank())throw new CampoObligatorioException("Es obligatorio poner el teléfono.");
         if (telefono.charAt(0) != '+') throw new TelefonoSinPrefijoException("El teléfono debe empezar con el prefijo internacional '+'. Por ejemplo +34 en España.");
     }

@@ -10,13 +10,13 @@ import java.time.format.DateTimeFormatter;
 public class Controller {
 
     private final ConsolaView view;
-    private final ProfesorController profesor_controller;
-    private final GrupoController grupo_controller;
+    private final ProfesorController profesorController;
+    private final GrupoController grupoController;
 
     public Controller(ConsolaView view, ProfesorController profesorController, GrupoController grupoController) {
         this.view = view;
-        profesor_controller = profesorController;
-        grupo_controller = grupoController;
+        this.profesorController = profesorController;
+        this.grupoController = grupoController;
     }
 
 
@@ -26,14 +26,14 @@ public class Controller {
             op = view.menu();
             try {
                 switch (op) {
-                    case 1 -> profesor_controller.crearProfesor();
-                    case 2 -> grupo_controller.crearGrupo();
-                    case 3 -> grupo_controller.borrarGrupoPorId();
+                    case 1 -> profesorController.crearProfesor();
+                    case 2 -> grupoController.crearGrupo();
+                    case 3 -> grupoController.borrarGrupoPorId();
                     case 0 -> view.info(mostrarDespedida());
                     default -> view.error("Opción inválida, inténtalo de nuevo.");
                 }
             } catch (ReglaNegocioException e) {
-                view.error("Atención!" + e.getMessage());
+                view.error("Atención! " + e.getMessage());
             } catch (RuntimeException e) {
                 view.error(e.getMessage());
             }

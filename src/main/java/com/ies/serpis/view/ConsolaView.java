@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public class ConsolaView {
 
-    Scanner sc = new Scanner(System.in);
+    private final Scanner sc = new Scanner(System.in);
 
     public int menu() {
         System.out.println("\n=== GESTIÓN DE EXCURSIONES DEL IES SERPIS ===");
@@ -62,7 +62,7 @@ public class ConsolaView {
                         profesor.getId_profesor(),
                         profesor.getNombre(),
                         profesor.getApellidos(),
-                        profesor.getAnyo_nacimiento(),
+                        profesor.getAnyoNacimiento(),
                         profesor.getTelefono()
                 );
             }
@@ -81,8 +81,8 @@ public class ConsolaView {
                 System.out.printf("%-3d | %-10s | %-20s | %-15d%n",
                         grupo.getId_grupo(),
                         grupo.getCurso(),
-                        grupo.getEtapa_educativa(),
-                        grupo.getCantidad_alumnos()
+                        grupo.getEtapaEducativa(),
+                        grupo.getCantidadAlumnos()
                 );
             }
             System.out.println("-".repeat(75));

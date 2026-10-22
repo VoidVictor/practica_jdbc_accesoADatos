@@ -15,7 +15,7 @@ public class Application {
         ConsolaView view = new ConsolaView();
 
         ProfesorService profesorService = new ProfesorService();
-        ProfesorController profesorController = new ProfesorController(profesorService, view);
+        ProfesorController profesorController = new ProfesorController(view, profesorService);
 
         GrupoService grupoService = new GrupoService();
         GrupoController grupoController = new GrupoController(view, grupoService);

@@ -18,7 +18,7 @@ public class ProfesorDaoJdbc implements Dao<Profesor, Integer>{
         ){
             sentencia.setString(1, profesor.getNombre());
             sentencia.setString(2, profesor.getApellidos());
-            sentencia.setInt(3, profesor.getAnyo_nacimiento());
+            sentencia.setInt(3, profesor.getAnyoNacimiento());
             sentencia.setString(4, profesor.getTelefono());
 
             int filas = sentencia.executeUpdate();

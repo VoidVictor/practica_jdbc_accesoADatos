@@ -16,8 +16,8 @@ public class GrupoDaoJdbc implements Dao <Grupo, Integer> {
                 PreparedStatement sentencia = conexion.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
         ) {
             sentencia.setString(1, grupo.getCurso());
-            sentencia.setString(2, grupo.getEtapa_educativa());
-            sentencia.setInt(3, grupo.getCantidad_alumnos());
+            sentencia.setString(2, grupo.getEtapaEducativa());
+            sentencia.setInt(3, grupo.getCantidadAlumnos());
 
             int filas = sentencia.executeUpdate();
 
