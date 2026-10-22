@@ -33,8 +33,6 @@ public class Controller {
                     default -> view.error("Opción inválida, inténtalo de nuevo.");
                 }
             } catch (ReglaNegocioException e) {
-                view.error("Atención! " + e.getMessage());
-            } catch (RuntimeException e) {
                 view.error(e.getMessage());
             }
         } while (op != 0);
