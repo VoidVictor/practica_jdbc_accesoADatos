@@ -23,7 +23,7 @@ public class Application {
         GrupoController grupoController = new GrupoController(view, grupoService);
 
         ExcursionService excursionService = new ExcursionService();
-        ExcursionController excursionController = new ExcursionController(view, excursionService, grupoService);
+        ExcursionController excursionController = new ExcursionController(view, excursionService, grupoService, profesorService);
 
         Controller controller = new Controller(view, profesorController, grupoController, excursionController);
         controller.run();

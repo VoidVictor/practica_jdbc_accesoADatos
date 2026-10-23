@@ -2,26 +2,35 @@ package com.ies.serpis.service;
 
 import com.ies.serpis.dao.ExcursionDaoJdbc;
 import com.ies.serpis.dao.GrupoDaoJdbc;
+import com.ies.serpis.dao.ProfesorDaoJdbc;
 import com.ies.serpis.exceptions.*;
 import com.ies.serpis.model.Excursion;
 import com.ies.serpis.model.Grupo;
+import com.ies.serpis.model.Profesor;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class ExcursionService {
 
     ExcursionDaoJdbc daoExcursion = new ExcursionDaoJdbc();
     GrupoDaoJdbc daoGrupo = new GrupoDaoJdbc();
+    ProfesorDaoJdbc daoProfesor = new ProfesorDaoJdbc();
 
-    public Integer crearExcursion (int id_grupo, String destino, int duracion, String fecha, double importe){
+    public Integer crearExcursion (int id_grupo, String destino, int duracion, String fecha, double importe, List<Integer> IDsProfesoresAcompanyantes){
         validarGrupo(id_grupo);
         validarFecha(fecha);
         validarCampos(destino, duracion, importe);
+        List<Profesor> profesoresAcompanyantes = validarProfesoresAcompanyantes(IDsProfesoresAcompanyantes);
         String estado = "Pendiente";
-        return daoExcursion.crear(new Excursion(id_grupo, destino, duracion, fecha, importe, estado));
+        Excursion excursion = new Excursion(id_grupo, destino, duracion, fecha, importe, estado);
+        excursion.setProfesores(profesoresAcompanyantes);
+        return daoExcursion.crear(excursion);
     }
 
     public boolean borrarExcursion (Integer id){
@@ -43,6 +52,12 @@ public class ExcursionService {
         validarExcursion(id);
         validarFecha(fecha);
         return daoExcursion.actualizarFecha(id, fecha);
+    }
+
+    public boolean finalizarExcursion (Integer id){
+        validarExcursion(id);
+        validarExcursionFinalizada(id);
+        return daoExcursion.finalizarExcursion(id);
     }
 
     private void validarGrupo (Integer id_grupo){
@@ -71,5 +86,25 @@ public class ExcursionService {
     private void validarExcursion (Integer id){
         if (!daoExcursion.existeExcursion(id)) throw new ExcursionInvalidaException("La excursión no existe con el ID " + id);
         if (daoExcursion.estaFinalizada(id)) throw new ExcursionInvalidaException("No se puede borrar/modificar una que excursión que no esté finalizada.");
+    }
+
+    private void validarExcursionFinalizada (Integer id){
+        Excursion excursion = daoExcursion.encontrarPorID(id).orElseThrow(() -> new ExcursionInvalidaException("La excursión no existe con el ID " + id));
+        DateTimeFormatter formatoFecha = Excursion.FORMATO_FECHA;
+        LocalDate fechaConvertida = LocalDate.parse(excursion.getFecha(), formatoFecha);
+        if (!fechaConvertida.isBefore(LocalDate.now())) throw new FechaInvalidaException("No se puede finalizar una excursión futura.");
+    }
+
+    private List<Profesor> validarProfesoresAcompanyantes(List<Integer> IDsProfesoresAcompanyantes) {
+        if (IDsProfesoresAcompanyantes.isEmpty()) throw new ExcursionInvalidaException("Debe haber como mínimo un profesor en la excursión.");
+        Set<Integer> comprobarDuplicados = new HashSet<>(IDsProfesoresAcompanyantes);
+        if (IDsProfesoresAcompanyantes.size() != comprobarDuplicados.size()) throw new ExcursionInvalidaException("No está permitido incluir un profesor dos o más veces.");
+        List<Profesor> profesores = new ArrayList<>();
+        for (Integer id : IDsProfesoresAcompanyantes){
+            Profesor profesor = daoProfesor.encontrarPorID(id)
+                    .orElseThrow(() -> new IdInvalidoException("No existe ningún profesor con ID " + id));
+            profesores.add(profesor);
+        }
+        return profesores;
     }
 }

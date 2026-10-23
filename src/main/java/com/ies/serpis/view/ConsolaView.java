@@ -19,6 +19,7 @@ public class ConsolaView {
         System.out.println("4. Alta excursión");
         System.out.println("5. Baja excursión");
         System.out.println("6. Modificar fecha de excursión");
+        System.out.println("7. Finalizar excursión");
         System.out.println("0. Salir");
         System.out.println("=============================================");
         System.out.print("Elige una opción: ");

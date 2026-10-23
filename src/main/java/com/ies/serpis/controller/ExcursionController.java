@@ -2,18 +2,24 @@ package com.ies.serpis.controller;
 
 import com.ies.serpis.service.ExcursionService;
 import com.ies.serpis.service.GrupoService;
+import com.ies.serpis.service.ProfesorService;
 import com.ies.serpis.view.ConsolaView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ExcursionController {
 
     private final ConsolaView view;
     private final ExcursionService serviceExcursion;
     private final GrupoService serviceGrupo;
+    private final ProfesorService serviceProfesor;
 
-    public ExcursionController(ConsolaView view, ExcursionService serviceExcursion, GrupoService serviceGrupo) {
+    public ExcursionController(ConsolaView view, ExcursionService serviceExcursion, GrupoService serviceGrupo, ProfesorService serviceProfesor) {
         this.view = view;
         this.serviceExcursion = serviceExcursion;
         this.serviceGrupo = serviceGrupo;
+        this.serviceProfesor = serviceProfesor;
     }
 
     public void crearExcursion() {
@@ -23,8 +29,9 @@ public class ExcursionController {
         int duracion = view.pedirEntero("Duración (en horas enteras)");
         String fecha = view.pedirString("Fecha (formato dd/MM/yyyy)");
         double importe = view.pedirDoble("Importe");
+        List<Integer> IDsProfesoresAcompanyantes = profesoresAcompanyantes();
 
-        int id = serviceExcursion.crearExcursion(id_grupo, destino, duracion, fecha, importe);
+        int id = serviceExcursion.crearExcursion(id_grupo, destino, duracion, fecha, importe, IDsProfesoresAcompanyantes);
         view.info("Excursión creada con el ID " + id);
     }
 
@@ -44,4 +51,25 @@ public class ExcursionController {
         String fecha = view.pedirString("Dime la nueva fecha (dd/MM/yyyy)");
         view.info(serviceExcursion.modificarExcursion(id_excursion, fecha)?"La fecha se ha modificado correctamente":"No se ha podido modificar la fecha");
     }
+
+    public void finalizarExcursion(){
+        view.listarExcursiones(serviceExcursion.listarExcursiones());
+        int id_excursion = view.pedirEntero("Dime el ID de la excursión que quieres finalizar");
+        view.info(serviceExcursion.finalizarExcursion(id_excursion)?"La excursión ha finalizado.":"No ha sido posible finalizar la excursión. Recuerda que no se pueden finalizar excursiones futuras.");
+    }
+
+    private List<Integer> profesoresAcompanyantes() {
+        view.listarProfesores(serviceProfesor.listarProfesores());
+        List<Integer> listaIDsProfesores = new ArrayList<>();
+        view.info("A continuación deberás indicar los IDs de los profesores que acudirán a la excursión.\nIntroduce 0 para salir.");
+        while (true) {
+            int id = view.pedirEntero("ID del profesor");
+            if (id == 0){
+                break;
+            }
+            listaIDsProfesores.add(id);
+        }
+        return listaIDsProfesores;
+    }
+
 }

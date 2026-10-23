@@ -1,6 +1,8 @@
 package com.ies.serpis.model;
 
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Excursion {
 
@@ -11,6 +13,7 @@ public class Excursion {
     private double importe;
     private String estado;
     public static final DateTimeFormatter FORMATO_FECHA = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    private List<Profesor> profesores = new ArrayList<>();
 
     public Excursion(int id_excursion, int id_grupo, String destino, int duracion, String fecha, double importe, String estado) {
         this.id_excursion = id_excursion;
@@ -86,6 +89,14 @@ public class Excursion {
 
     public void setEstado(String estado) {
         this.estado = estado;
+    }
+
+    public List<Profesor> getProfesores() {
+        return profesores;
+    }
+
+    public void setProfesores(List<Profesor> profesores) {
+        this.profesores = profesores;
     }
 
     @Override

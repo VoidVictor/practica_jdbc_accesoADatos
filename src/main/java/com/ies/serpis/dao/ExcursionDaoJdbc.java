@@ -2,6 +2,7 @@ package com.ies.serpis.dao;
 
 import com.ies.serpis.model.Excursion;
 import com.ies.serpis.model.Grupo;
+import com.ies.serpis.model.Profesor;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -15,33 +16,44 @@ public class ExcursionDaoJdbc implements Dao<Excursion, Integer> {
 
     @Override
     public Integer crear(Excursion excursion) {
-        String sql = "INSERT INTO excursion (id_grupo, destino, duracion, fecha, importe, estado) VALUES (?,?,?,?,?,?)";
+        String sqlExcursion = "INSERT INTO excursion (id_grupo, destino, duracion, fecha, importe, estado) VALUES (?,?,?,?,?,?)";
+        String sqlProfesor  = "INSERT INTO prof_excu (id_profesor, id_excursion) VALUES (?,?)";
         try (
                 Connection conexion = Conexion.establecerConexion();
-                PreparedStatement sentencia = conexion.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+                PreparedStatement sentenciaExcursion = conexion.prepareStatement(sqlExcursion, Statement.RETURN_GENERATED_KEYS);
+                PreparedStatement sentenciaProfesor = conexion.prepareStatement(sqlProfesor);
                 ) {
-            sentencia.setInt(1,excursion.getId_grupo());
-            sentencia.setString(2,excursion.getDestino());
-            sentencia.setInt(3, excursion.getDuracion());
-            sentencia.setDate(4, Date.valueOf(LocalDate.parse(excursion.getFecha(), Excursion.FORMATO_FECHA)));
-            sentencia.setDouble(5,excursion.getImporte());
-            sentencia.setString(6, excursion.getEstado());
+            sentenciaExcursion.setInt(1,excursion.getId_grupo());
+            sentenciaExcursion.setString(2,excursion.getDestino());
+            sentenciaExcursion.setInt(3, excursion.getDuracion());
+            sentenciaExcursion.setDate(4, Date.valueOf(LocalDate.parse(excursion.getFecha(), Excursion.FORMATO_FECHA)));
+            sentenciaExcursion.setDouble(5,excursion.getImporte());
+            sentenciaExcursion.setString(6, excursion.getEstado());
 
-            int filas = sentencia.executeUpdate();
+            int filas = sentenciaExcursion.executeUpdate();
 
             if (filas != 1) {
                 throw new RuntimeException("El INSERT no afectó exactamente a 1 fila (filas = " + filas + ")");
             }
 
-            try (ResultSet keys = sentencia.getGeneratedKeys()) {
+            int id_excursion;
+            try (ResultSet keys = sentenciaExcursion.getGeneratedKeys()) {
                 if (keys.next()) {
-                    int id = keys.getInt(1);
-                    excursion.setId_excursion(id);
-                    return id;
+                    id_excursion = keys.getInt(1);
+                    excursion.setId_excursion(id_excursion);
                 } else {
                     throw new RuntimeException("Asegúrate que el id es autoincrement. No hay clave generada.");
                 }
             }
+
+            for (Profesor profesor : excursion.getProfesores()) {
+                sentenciaProfesor.setInt(1, profesor.getId_profesor());
+                sentenciaProfesor.setInt(2, id_excursion);
+                sentenciaProfesor.executeUpdate();
+            }
+
+            excursion.setId_excursion(id_excursion);
+            return id_excursion;
         } catch (SQLException e) {
             throw new RuntimeException("Error creando la excursión.");
         }
@@ -158,6 +170,21 @@ public class ExcursionDaoJdbc implements Dao<Excursion, Integer> {
             }
         } catch (SQLException e) {
             throw new RuntimeException("No se ha podido acceder a la base de datos al comprobar si existe la excursión.", e);
+        }
+    }
+
+    public boolean finalizarExcursion (Integer id){
+        String sql = "UPDATE excursion SET estado=? WHERE id_excursion=?";
+        try (
+                Connection conexion = Conexion.establecerConexion();
+                PreparedStatement sentencia = conexion.prepareStatement(sql);
+                ){
+            sentencia.setString(1, "Finalizada");
+            sentencia.setInt(2, id);
+
+            return sentencia.executeUpdate() == 1;
+        } catch (SQLException e) {
+            throw new RuntimeException("No ha sido posible finalizar la excursión.");
         }
     }
 

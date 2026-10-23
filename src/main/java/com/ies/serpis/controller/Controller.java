@@ -33,6 +33,7 @@ public class Controller {
                     case 4 -> excursionController.crearExcursion();
                     case 5 -> excursionController.borrarExcursion();
                     case 6 -> excursionController.actualizarExcursion();
+                    case 7 -> excursionController.finalizarExcursion();
                     case 0 -> view.info(mostrarDespedida());
                     default -> view.error("Opción inválida, inténtalo de nuevo.");
                 }
