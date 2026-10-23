@@ -68,21 +68,31 @@ public class ExcursionService {
         return excursiones;
     }
 
+    public List<Excursion> listarFinalizadasEntreFechas(String desdeFecha, String hastaFecha) {
+        LocalDate fechaDesde = convertirFecha(desdeFecha);
+        LocalDate fechaHasta = convertirFecha(hastaFecha);
+        if (fechaDesde.isAfter(fechaHasta)) throw new FechaInvalidaException("La fecha inicial no puede ser posterior a la fecha final.");
+        return daoExcursion.encontrarFinalizadasEntreFechas(desdeFecha, hastaFecha);
+    }
+
     private void validarGrupo (Integer id_grupo){
         if (id_grupo <= 0) throw new IdInvalidoException("El ID debe ser positivo.");
         if (!daoGrupo.existeGrupo(id_grupo)) throw new GrupoInvalidoException("El grupo no existe en la base de datos.");
     }
 
-    private void validarFecha (String fecha){
-        if (fecha == null || fecha.isBlank())throw new CampoObligatorioException("Es obligatorio poner la fecha.");
-        LocalDate fechaConvertida;
+    private LocalDate convertirFecha(String fecha) {
+        if (fecha == null || fecha.isBlank()) throw new CampoObligatorioException("Es obligatorio poner la fecha.");
         try {
-            DateTimeFormatter formatoFecha = Excursion.FORMATO_FECHA;
-            fechaConvertida = LocalDate.parse(fecha, formatoFecha);
-        } catch (DateTimeParseException e){
-            throw new FechaInvalidaException("La fecha debe contener justo 10 caracteres. Formato dd/MM/yyyy.");
+            return LocalDate.parse(fecha, Excursion.FORMATO_FECHA);
+        } catch (DateTimeParseException e) {
+            throw new FechaInvalidaException("La fecha debe contener justo 10 caracteres. Usa dd/MM/yyyy.");
         }
-        if (fechaConvertida.isBefore(LocalDate.now().plusDays(10))) throw new FechaInvalidaException("La excursión debe planearse como mínimo con 10 días de antelación.");
+    }
+
+    private void validarFecha(String fecha) {
+        LocalDate fechaConvertida = convertirFecha(fecha);
+        if (fechaConvertida.isBefore(LocalDate.now().plusDays(10)))
+            throw new FechaInvalidaException("La excursión debe planearse como mínimo con 10 días de antelación.");
     }
 
     private void validarCampos (String destino, int duracion, double importe){
@@ -98,8 +108,7 @@ public class ExcursionService {
 
     private void validarExcursionFinalizada (Integer id){
         Excursion excursion = daoExcursion.encontrarPorID(id).orElseThrow(() -> new ExcursionInvalidaException("La excursión no existe con el ID " + id));
-        DateTimeFormatter formatoFecha = Excursion.FORMATO_FECHA;
-        LocalDate fechaConvertida = LocalDate.parse(excursion.getFecha(), formatoFecha);
+        LocalDate fechaConvertida = convertirFecha(excursion.getFecha());
         if (!fechaConvertida.isBefore(LocalDate.now())) throw new FechaInvalidaException("No se puede finalizar una excursión futura.");
     }
 

@@ -188,6 +188,34 @@ public class ExcursionDaoJdbc implements Dao<Excursion, Integer> {
         }
     }
 
+    public List<Excursion> encontrarFinalizadasEntreFechas(String desdeFecha, String hastaFecha) {
+        List<Excursion> lista = new ArrayList<>();
+        String sql = "SELECT * FROM excursion " +
+                "WHERE estado = 'Finalizada' AND fecha BETWEEN ? AND ? " +
+                "ORDER BY fecha";
+        try (
+                Connection conexion = Conexion.establecerConexion();
+                PreparedStatement sentencia = conexion.prepareStatement(sql);
+        ) {
+            sentencia.setDate(1, Date.valueOf(LocalDate.parse(desdeFecha, Excursion.FORMATO_FECHA)));
+            sentencia.setDate(2, Date.valueOf(LocalDate.parse(hastaFecha, Excursion.FORMATO_FECHA)));
+            try (ResultSet rs = sentencia.executeQuery()) {
+                while (rs.next()) {
+                    lista.add(new Excursion(rs.getInt("id_excursion"),
+                            rs.getInt("id_grupo"),
+                            rs.getString("destino"),
+                            rs.getInt("duracion"),
+                            rs.getDate("fecha").toLocalDate().format(Excursion.FORMATO_FECHA),
+                            rs.getDouble("importe"),
+                            rs.getString("estado")));
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("No se ha podido acceder a la base de datos al listar las excursiones finalizadas.", e);
+        }
+        return lista;
+    }
+
     @Override
     public boolean actualizar(Excursion excursion) {
         throw new UnsupportedOperationException("No está permitido actualizar todos los datos de una excursión.");

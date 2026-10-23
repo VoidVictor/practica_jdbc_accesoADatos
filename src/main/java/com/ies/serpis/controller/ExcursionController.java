@@ -76,4 +76,10 @@ public class ExcursionController {
         view.listarExcursionesConProfesores(serviceExcursion.listarExcursionesConProfesores());
     }
 
+    public void listarFinalizadasEntreFechas() {
+        String desdeFecha = view.pedirString("Introduce la fecha inicial (dd/MM/yyyy)");
+        String hastaFecha = view.pedirString("Introduce la fecha final (dd/MM/yyyy)");
+        view.listarExcursiones(serviceExcursion.listarFinalizadasEntreFechas(desdeFecha, hastaFecha));
+    }
+
 }
