@@ -20,6 +20,7 @@ public class ConsolaView {
         System.out.println("5. Baja excursión");
         System.out.println("6. Modificar fecha de excursión");
         System.out.println("7. Finalizar excursión");
+        System.out.println("8. Listar todas las excursiones junto con los profesores acompañantes");
         System.out.println("0. Salir");
         System.out.println("=============================================");
         System.out.print("Elige una opción: ");
@@ -132,6 +133,20 @@ public class ConsolaView {
         }
     }
 
+    public void listarExcursionesConProfesores(List<Excursion> excursiones) {
+        System.out.println("-".repeat(30) + " EXCURSIONES Y PROFESORES ACOMPAÑANTES " + "-".repeat(30));
+        if (excursiones.isEmpty()) {
+            System.out.println("No hay excursiones registradas");
+        } else {
+            for (Excursion excursion : excursiones) {
+                System.out.println(excursion);
+                for (Profesor profesor : excursion.getProfesores()) {
+                    System.out.println("     · " + profesor.getNombre() + " " + profesor.getApellidos());
+                }
+                System.out.println("-".repeat(99));
+            }
+        }
 
+    }
 
 }

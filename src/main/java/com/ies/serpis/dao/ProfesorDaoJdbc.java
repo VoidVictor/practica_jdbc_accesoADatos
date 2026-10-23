@@ -93,6 +93,31 @@ public class ProfesorDaoJdbc implements Dao<Profesor, Integer>{
 
     }
 
+    public List<Profesor> encontrarProfesoresPorExcursion(Integer id) {
+        List<Profesor> lista = new ArrayList<>();
+        String sql = "SELECT p.* FROM profesor p " +
+                "JOIN prof_excu pe ON pe.id_profesor = p.id_profesor " +
+                "WHERE pe.id_excursion = ?";
+        try (
+                Connection conexion = Conexion.establecerConexion();
+                PreparedStatement sentencia = conexion.prepareStatement(sql);
+        ) {
+            sentencia.setInt(1, id);
+            try (ResultSet rs = sentencia.executeQuery()) {
+                while (rs.next()) {
+                    lista.add(new Profesor(rs.getInt("id_profesor"),
+                            rs.getString("nombre"),
+                            rs.getString("apellidos"),
+                            rs.getInt("anyo_nacimiento"),
+                            rs.getString("telefono")));
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("No se ha podido acceder a la base de datos al buscar los profesores de la excursión.", e);
+        }
+        return lista;
+    }
+
     //Estos dos métodos de abajo no se van a utilizar
 
     @Override

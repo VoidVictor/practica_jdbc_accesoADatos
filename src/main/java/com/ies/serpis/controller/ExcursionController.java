@@ -72,4 +72,8 @@ public class ExcursionController {
         return listaIDsProfesores;
     }
 
+    public void listarExcursionesConProfesores() {
+        view.listarExcursionesConProfesores(serviceExcursion.listarExcursionesConProfesores());
+    }
+
 }

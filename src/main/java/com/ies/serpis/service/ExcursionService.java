@@ -60,6 +60,14 @@ public class ExcursionService {
         return daoExcursion.finalizarExcursion(id);
     }
 
+    public List<Excursion> listarExcursionesConProfesores() {
+        List<Excursion> excursiones = daoExcursion.encontrarTodos();
+        for (Excursion excursion : excursiones) {
+            excursion.setProfesores(daoProfesor.encontrarProfesoresPorExcursion(excursion.getId_excursion()));
+        }
+        return excursiones;
+    }
+
     private void validarGrupo (Integer id_grupo){
         if (id_grupo <= 0) throw new IdInvalidoException("El ID debe ser positivo.");
         if (!daoGrupo.existeGrupo(id_grupo)) throw new GrupoInvalidoException("El grupo no existe en la base de datos.");
@@ -85,7 +93,7 @@ public class ExcursionService {
 
     private void validarExcursion (Integer id){
         if (!daoExcursion.existeExcursion(id)) throw new ExcursionInvalidaException("La excursión no existe con el ID " + id);
-        if (daoExcursion.estaFinalizada(id)) throw new ExcursionInvalidaException("No se puede borrar/modificar una que excursión que no esté finalizada.");
+        if (daoExcursion.estaFinalizada(id)) throw new ExcursionInvalidaException("No se puede modificar una excursión que esté finalizada.");
     }
 
     private void validarExcursionFinalizada (Integer id){
