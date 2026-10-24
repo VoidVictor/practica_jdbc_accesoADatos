@@ -5,11 +5,9 @@ import com.ies.serpis.dao.GrupoDaoJdbc;
 import com.ies.serpis.dao.ProfesorDaoJdbc;
 import com.ies.serpis.exceptions.*;
 import com.ies.serpis.model.Excursion;
-import com.ies.serpis.model.Grupo;
 import com.ies.serpis.model.Profesor;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -18,9 +16,9 @@ import java.util.Set;
 
 public class ExcursionService {
 
-    ExcursionDaoJdbc daoExcursion = new ExcursionDaoJdbc();
-    GrupoDaoJdbc daoGrupo = new GrupoDaoJdbc();
-    ProfesorDaoJdbc daoProfesor = new ProfesorDaoJdbc();
+    private final ExcursionDaoJdbc daoExcursion = new ExcursionDaoJdbc();
+    private final GrupoDaoJdbc daoGrupo = new GrupoDaoJdbc();
+    private final ProfesorDaoJdbc daoProfesor = new ProfesorDaoJdbc();
 
     public Integer crearExcursion (int id_grupo, String destino, int duracion, String fecha, double importe, List<Integer> IDsProfesoresAcompanyantes){
         validarGrupo(id_grupo);
@@ -103,7 +101,7 @@ public class ExcursionService {
 
     private void validarExcursion (Integer id){
         if (!daoExcursion.existeExcursion(id)) throw new ExcursionInvalidaException("La excursión no existe con el ID " + id);
-        if (daoExcursion.estaFinalizada(id)) throw new ExcursionInvalidaException("No se puede modificar una excursión que esté finalizada.");
+        if (daoExcursion.estaFinalizada(id)) throw new ExcursionInvalidaException("La excursión ya está finalizada y no admite cambios.");
     }
 
     private void validarExcursionFinalizada (Integer id){

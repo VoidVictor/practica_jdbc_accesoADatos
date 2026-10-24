@@ -1,14 +1,12 @@
 package com.ies.serpis.dao;
 
 import com.ies.serpis.model.Excursion;
-import com.ies.serpis.model.Grupo;
 import com.ies.serpis.model.Profesor;
 
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 public class ExcursionDaoJdbc implements Dao<Excursion, Integer> {
@@ -160,6 +158,21 @@ public class ExcursionDaoJdbc implements Dao<Excursion, Integer> {
 
     public boolean existeExcursion (Integer id){
         String sql = "SELECT * FROM excursion WHERE id_excursion = ?";
+        try (
+                Connection conexion = Conexion.establecerConexion();
+                PreparedStatement sentencia = conexion.prepareStatement(sql);
+        ) {
+            sentencia.setInt(1, id);
+            try (ResultSet rs = sentencia.executeQuery();) {
+                return rs.next();
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("No se ha podido acceder a la base de datos al comprobar si existe la excursión.", e);
+        }
+    }
+
+    public boolean existenExcursionesDeGrupo(Integer id) {
+        String sql = "SELECT * FROM excursion WHERE id_grupo = ? LIMIT 1";
         try (
                 Connection conexion = Conexion.establecerConexion();
                 PreparedStatement sentencia = conexion.prepareStatement(sql);

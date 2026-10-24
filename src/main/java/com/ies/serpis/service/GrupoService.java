@@ -1,17 +1,16 @@
 package com.ies.serpis.service;
 
+import com.ies.serpis.dao.ExcursionDaoJdbc;
 import com.ies.serpis.dao.GrupoDaoJdbc;
 import com.ies.serpis.exceptions.*;
 import com.ies.serpis.model.Grupo;
-import com.ies.serpis.model.Profesor;
 
-import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 public class GrupoService {
 
     private final GrupoDaoJdbc dao = new GrupoDaoJdbc();
+    private final ExcursionDaoJdbc daoExcursion = new ExcursionDaoJdbc();
 
     public Integer crearGrupo (String curso, String etapaEducativa, int cantidadAlumnos){
 
@@ -27,13 +26,15 @@ public class GrupoService {
     }
 
     public Grupo obtenerGrupoPorID(Integer id) {
-        if (id <= 0) throw new IdInvalidoException("Los IDs empiezan a partir de 1");
+        if (id <= 0) throw new IdInvalidoException("Los IDs empiezan a partir de 1.");
         return dao.encontrarPorID(id)
                 .orElseThrow(() -> new IdInvalidoException("No existe ningún grupo con ID " + id));
     }
 
     public boolean borrarGrupo(Integer id){
-        if (id <= 0) throw new IdInvalidoException("Los IDs empiezan a partir de 1");
+        if (id <= 0) throw new IdInvalidoException("Los IDs empiezan a partir de 1.");
+        if (daoExcursion.existenExcursionesDeGrupo(id))
+            throw new GrupoInvalidoException("No se puede eliminar el grupo porque tiene excursiones asociadas.");
         return dao.borrar(id);
     }
 
