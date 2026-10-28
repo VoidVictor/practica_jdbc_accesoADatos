@@ -73,6 +73,8 @@ public class ExcursionService {
         return daoExcursion.encontrarFinalizadasEntreFechas(desdeFecha, hastaFecha);
     }
 
+    // ------ VALIDACIONES ------
+
     private void validarGrupo (Integer id_grupo){
         if (id_grupo <= 0) throw new IdInvalidoException("El ID debe ser positivo.");
         if (!daoGrupo.existeGrupo(id_grupo)) throw new GrupoInvalidoException("El grupo no existe en la base de datos.");

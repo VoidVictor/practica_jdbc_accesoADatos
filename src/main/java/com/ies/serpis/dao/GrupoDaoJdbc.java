@@ -35,7 +35,7 @@ public class GrupoDaoJdbc implements Dao <Grupo, Integer> {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException("Error creando el grupo.");
+            throw new RuntimeException("No se ha podido crear el grupo.", e);
 
         }
     }
@@ -59,7 +59,7 @@ public class GrupoDaoJdbc implements Dao <Grupo, Integer> {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException("No se ha podido acceder a la base de datos al buscar el grupo.", e);
+            throw new RuntimeException("No se ha podido buscar el grupo.", e);
         }
         return Optional.empty();
     }
@@ -81,7 +81,7 @@ public class GrupoDaoJdbc implements Dao <Grupo, Integer> {
 
             }
         } catch (SQLException e) {
-            throw new RuntimeException("No se ha podido acceder a la base de datos al listar los grupos.", e);
+            throw new RuntimeException("No se ha podido listar los grupos.", e);
         }
         return lista;
     }
@@ -96,7 +96,7 @@ public class GrupoDaoJdbc implements Dao <Grupo, Integer> {
             sentencia.setInt(1, id);
             return sentencia.executeUpdate() == 1;
         } catch (SQLException e) {
-            throw new RuntimeException("Error al borrar el grupo.");
+            throw new RuntimeException("No se ha podido borrar el grupo.", e);
         }
     }
 
@@ -113,7 +113,7 @@ public class GrupoDaoJdbc implements Dao <Grupo, Integer> {
                 return rs.next();
             }
         } catch (SQLException e) {
-            throw new RuntimeException("No se ha podido acceder a la base de datos al comprobar el curso.", e);
+            throw new RuntimeException("No se ha podido comprobar el curso.", e);
         }
     }
 
@@ -128,7 +128,7 @@ public class GrupoDaoJdbc implements Dao <Grupo, Integer> {
                 return rs.next();
             }
         } catch (SQLException e) {
-            throw new RuntimeException("No se ha podido acceder a la base de datos al comprobar si existe el grupo.", e);
+            throw new RuntimeException("No se ha podido comprobar si existe el grupo.", e);
         }
     }
 

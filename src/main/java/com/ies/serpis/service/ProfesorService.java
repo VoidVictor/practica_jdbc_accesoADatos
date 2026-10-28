@@ -30,7 +30,7 @@ public class ProfesorService {
                 .orElseThrow(() -> new IdInvalidoException("No existe ningún profesor con ID " + id));
     }
 
-    // ---------- MÉTODOS AUXILIARES ----------
+    // ------ VALIDACIONES ------
 
     private void validarCampos(String nombre, String apellidos, int anyoNacimiento, String telefono) {
         if (nombre == null || nombre.isBlank())throw new CampoObligatorioException("Es obligatorio poner el nombre.");

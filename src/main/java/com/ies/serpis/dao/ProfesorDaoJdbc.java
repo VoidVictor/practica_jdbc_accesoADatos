@@ -37,7 +37,7 @@ public class ProfesorDaoJdbc implements Dao<Profesor, Integer>{
                 }
             }
         } catch (SQLException e){
-            throw new RuntimeException("Error creando el profesor.");
+            throw new RuntimeException("No se ha podido crear el profesor.", e);
 
         }
     }
@@ -63,7 +63,7 @@ public class ProfesorDaoJdbc implements Dao<Profesor, Integer>{
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException("No se ha podido acceder a la base de datos al buscar el profesor.", e);
+            throw new RuntimeException("No se ha podido buscar el profesor.", e);
         }
         return Optional.empty();
 
@@ -87,7 +87,7 @@ public class ProfesorDaoJdbc implements Dao<Profesor, Integer>{
 
             }
         } catch (SQLException e) {
-            throw new RuntimeException("No se ha podido acceder a la base de datos al listar los profesores.", e);
+            throw new RuntimeException("No se ha podido listar los profesores.", e);
         }
         return lista;
 
@@ -113,7 +113,7 @@ public class ProfesorDaoJdbc implements Dao<Profesor, Integer>{
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException("No se ha podido acceder a la base de datos al buscar los profesores de la excursión.", e);
+            throw new RuntimeException("No se ha podido buscar los profesores de la excursión.", e);
         }
         return lista;
     }

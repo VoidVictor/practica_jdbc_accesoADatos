@@ -53,7 +53,7 @@ public class ExcursionDaoJdbc implements Dao<Excursion, Integer> {
             excursion.setId_excursion(id_excursion);
             return id_excursion;
         } catch (SQLException e) {
-            throw new RuntimeException("Error creando la excursión.");
+            throw new RuntimeException("No se ha podido crear la excursión.", e);
         }
     }
 
@@ -79,7 +79,7 @@ public class ExcursionDaoJdbc implements Dao<Excursion, Integer> {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException("No se ha podido acceder a la base de datos al buscar la excursión.", e);
+            throw new RuntimeException("No se ha podido buscar la excursión.", e);
         }
         return Optional.empty();
     }
@@ -104,7 +104,7 @@ public class ExcursionDaoJdbc implements Dao<Excursion, Integer> {
 
             }
         } catch (SQLException e) {
-            throw new RuntimeException("No se ha podido acceder a la base de datos al listar las excursiones.", e);
+            throw new RuntimeException("No se ha podido listar las excursiones.", e);
         }
         return lista;
     }
@@ -119,7 +119,7 @@ public class ExcursionDaoJdbc implements Dao<Excursion, Integer> {
 
             return sentencia.executeUpdate() == 1;
         } catch (SQLException e) {
-            throw new RuntimeException("Error actualizando la fecha de la excursión", e);
+            throw new RuntimeException("No se ha podido actualizar la fecha de la excursión", e);
         }
     }
 
@@ -133,7 +133,7 @@ public class ExcursionDaoJdbc implements Dao<Excursion, Integer> {
             sentencia.setInt(1, id);
             return sentencia.executeUpdate() == 1;
         } catch (SQLException e) {
-            throw new RuntimeException("Error al borrar la excursión.");
+            throw new RuntimeException("No se ha podido borrar la excursión.", e);
         }
     }
 
@@ -152,7 +152,7 @@ public class ExcursionDaoJdbc implements Dao<Excursion, Integer> {
                 throw new RuntimeException("No existe ninguna excursión el ID " + id);
             }
         } catch (SQLException e) {
-            throw new RuntimeException("No se ha podido acceder a la base de datos al comprobar si existe la excursión.", e);
+            throw new RuntimeException("No se ha podido comprobar si existe la excursión.", e);
         }
     }
 
@@ -167,7 +167,7 @@ public class ExcursionDaoJdbc implements Dao<Excursion, Integer> {
                 return rs.next();
             }
         } catch (SQLException e) {
-            throw new RuntimeException("No se ha podido acceder a la base de datos al comprobar si existe la excursión.", e);
+            throw new RuntimeException("No se ha podido comprobar si existe la excursión.", e);
         }
     }
 
@@ -182,7 +182,7 @@ public class ExcursionDaoJdbc implements Dao<Excursion, Integer> {
                 return rs.next();
             }
         } catch (SQLException e) {
-            throw new RuntimeException("No se ha podido acceder a la base de datos al comprobar si existe la excursión.", e);
+            throw new RuntimeException("No se ha podido comprobar si existe la excursión.", e);
         }
     }
 
@@ -197,7 +197,7 @@ public class ExcursionDaoJdbc implements Dao<Excursion, Integer> {
 
             return sentencia.executeUpdate() == 1;
         } catch (SQLException e) {
-            throw new RuntimeException("No ha sido posible finalizar la excursión.");
+            throw new RuntimeException("No ha sido posible finalizar la excursión.", e);
         }
     }
 
@@ -224,7 +224,7 @@ public class ExcursionDaoJdbc implements Dao<Excursion, Integer> {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException("No se ha podido acceder a la base de datos al listar las excursiones finalizadas.", e);
+            throw new RuntimeException("No se ha podido listar las excursiones finalizadas.", e);
         }
         return lista;
     }

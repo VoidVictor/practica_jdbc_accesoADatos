@@ -23,11 +23,4 @@ public class ProfesorController {
         Integer id = service.crearProfesor(nombre, apellidos, anyoNacimiento, telefono);
         view.info("Profesor creado con id " + id);
     }
-
-    public void listarProfesores(){
-        view.listarProfesores(service.listarProfesores());
-    }
-
-
-
 }

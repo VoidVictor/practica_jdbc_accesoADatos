@@ -38,7 +38,7 @@ public class GrupoService {
         return dao.borrar(id);
     }
 
-    // ---------- MÉTODOS AUXILIARES ----------
+    // ------ VALIDACIONES ------
 
     private String validarEtapaYFormatear (String etapaEducativa){
         if (etapaEducativa == null || etapaEducativa.isBlank())throw new CampoObligatorioException("Es obligatorio poner la etapa educativa (ESO, Bachillerato o FP).");
