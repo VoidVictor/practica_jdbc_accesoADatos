@@ -1,6 +1,7 @@
 package com.ies.serpis.model;
 
 import java.time.format.DateTimeFormatter;
+import java.time.format.ResolverStyle;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +13,7 @@ public class Excursion {
     private String fecha;
     private double importe;
     private String estado;
-    public static final DateTimeFormatter FORMATO_FECHA = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    public static final DateTimeFormatter FORMATO_FECHA = DateTimeFormatter.ofPattern("dd/MM/uuuu").withResolverStyle(ResolverStyle.STRICT);
     private List<Profesor> profesores = new ArrayList<>();
 
     public Excursion(int id_excursion, int id_grupo, String destino, int duracion, String fecha, double importe, String estado) {

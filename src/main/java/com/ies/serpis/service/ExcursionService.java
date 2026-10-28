@@ -83,7 +83,7 @@ public class ExcursionService {
         try {
             return LocalDate.parse(fecha, Excursion.FORMATO_FECHA);
         } catch (DateTimeParseException e) {
-            throw new FechaInvalidaException("La fecha debe contener justo 10 caracteres. Usa dd/MM/yyyy.");
+            throw new FechaInvalidaException("Formato de fecha incorrecto o fecha inexistente. Usa dd/MM/yyyy.");
         }
     }
 
