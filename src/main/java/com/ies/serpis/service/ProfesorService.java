@@ -1,6 +1,6 @@
 package com.ies.serpis.service;
 
-import com.ies.serpis.dao.ProfesorDaoJdbc;
+import com.ies.serpis.dao.ProfesorDaoMySQL;
 import com.ies.serpis.exceptions.AnioNacimientoInvalidoException;
 import com.ies.serpis.exceptions.CampoObligatorioException;
 import com.ies.serpis.exceptions.IdInvalidoException;
@@ -9,11 +9,10 @@ import com.ies.serpis.model.Profesor;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 public class ProfesorService {
 
-    private final ProfesorDaoJdbc dao = new ProfesorDaoJdbc();
+    private final ProfesorDaoMySQL dao = new ProfesorDaoMySQL();
 
     public Integer crearProfesor (String nombre, String apellidos, int anyoNacimiento, String telefono){
         validarCampos(nombre, apellidos, anyoNacimiento, telefono);

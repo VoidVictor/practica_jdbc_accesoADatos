@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class ExcursionDaoJdbc implements Dao<Excursion, Integer> {
+public class ExcursionDaoMySQL implements Dao<Excursion, Integer> {
 
 
     @Override
@@ -17,7 +17,7 @@ public class ExcursionDaoJdbc implements Dao<Excursion, Integer> {
         String sqlExcursion = "INSERT INTO excursion (id_grupo, destino, duracion, fecha, importe, estado) VALUES (?,?,?,?,?,?)";
         String sqlProfesor  = "INSERT INTO prof_excu (id_profesor, id_excursion) VALUES (?,?)";
         try (
-                Connection conexion = Conexion.establecerConexion();
+                Connection conexion = ConexionMySQL.establecerConexion();
                 PreparedStatement sentenciaExcursion = conexion.prepareStatement(sqlExcursion, Statement.RETURN_GENERATED_KEYS);
                 PreparedStatement sentenciaProfesor = conexion.prepareStatement(sqlProfesor);
                 ) {
@@ -61,7 +61,7 @@ public class ExcursionDaoJdbc implements Dao<Excursion, Integer> {
     public Optional<Excursion> encontrarPorID(Integer id) {
         String sql = "SELECT * FROM excursion WHERE id_excursion = ?";
         try (
-                Connection conexion = Conexion.establecerConexion();
+                Connection conexion = ConexionMySQL.establecerConexion();
                 PreparedStatement sentencia = conexion.prepareStatement(sql);
         ) {
             sentencia.setInt(1, id);
@@ -89,7 +89,7 @@ public class ExcursionDaoJdbc implements Dao<Excursion, Integer> {
         List<Excursion> lista = new ArrayList<>();
         String sql = "SELECT * FROM excursion";
         try (
-                Connection conexion = Conexion.establecerConexion();
+                Connection conexion = ConexionMySQL.establecerConexion();
                 PreparedStatement sentencia = conexion.prepareStatement(sql);
                 ResultSet rs = sentencia.executeQuery();
         ) {
@@ -111,7 +111,7 @@ public class ExcursionDaoJdbc implements Dao<Excursion, Integer> {
 
     public boolean actualizarFecha (Integer id, String fecha) {
         String sql = "UPDATE excursion SET fecha=? WHERE id_excursion=?";
-        try (Connection conexion = Conexion.establecerConexion();
+        try (Connection conexion = ConexionMySQL.establecerConexion();
              PreparedStatement sentencia = conexion.prepareStatement(sql)) {
 
             sentencia.setDate(1, Date.valueOf(LocalDate.parse(fecha, Excursion.FORMATO_FECHA)));
@@ -127,7 +127,7 @@ public class ExcursionDaoJdbc implements Dao<Excursion, Integer> {
     public boolean borrar(Integer id) {
         String sql = "DELETE FROM excursion WHERE id_excursion = ?";
         try (
-                Connection conexion = Conexion.establecerConexion();
+                Connection conexion = ConexionMySQL.establecerConexion();
                 PreparedStatement sentencia = conexion.prepareStatement(sql);
         ) {
             sentencia.setInt(1, id);
@@ -140,7 +140,7 @@ public class ExcursionDaoJdbc implements Dao<Excursion, Integer> {
     public boolean estaFinalizada (Integer id){
         String sql = "SELECT estado FROM excursion WHERE id_excursion = ?";
         try (
-                Connection conexion = Conexion.establecerConexion();
+                Connection conexion = ConexionMySQL.establecerConexion();
                 PreparedStatement sentencia = conexion.prepareStatement(sql);
         ) {
             sentencia.setInt(1, id);
@@ -159,7 +159,7 @@ public class ExcursionDaoJdbc implements Dao<Excursion, Integer> {
     public boolean existeExcursion (Integer id){
         String sql = "SELECT * FROM excursion WHERE id_excursion = ?";
         try (
-                Connection conexion = Conexion.establecerConexion();
+                Connection conexion = ConexionMySQL.establecerConexion();
                 PreparedStatement sentencia = conexion.prepareStatement(sql);
         ) {
             sentencia.setInt(1, id);
@@ -174,7 +174,7 @@ public class ExcursionDaoJdbc implements Dao<Excursion, Integer> {
     public boolean existenExcursionesDeGrupo(Integer id) {
         String sql = "SELECT * FROM excursion WHERE id_grupo = ? LIMIT 1";
         try (
-                Connection conexion = Conexion.establecerConexion();
+                Connection conexion = ConexionMySQL.establecerConexion();
                 PreparedStatement sentencia = conexion.prepareStatement(sql);
         ) {
             sentencia.setInt(1, id);
@@ -189,7 +189,7 @@ public class ExcursionDaoJdbc implements Dao<Excursion, Integer> {
     public boolean finalizarExcursion (Integer id){
         String sql = "UPDATE excursion SET estado=? WHERE id_excursion=?";
         try (
-                Connection conexion = Conexion.establecerConexion();
+                Connection conexion = ConexionMySQL.establecerConexion();
                 PreparedStatement sentencia = conexion.prepareStatement(sql);
                 ){
             sentencia.setString(1, "Finalizada");
@@ -207,7 +207,7 @@ public class ExcursionDaoJdbc implements Dao<Excursion, Integer> {
                 "WHERE estado = 'Finalizada' AND fecha BETWEEN ? AND ? " +
                 "ORDER BY fecha";
         try (
-                Connection conexion = Conexion.establecerConexion();
+                Connection conexion = ConexionMySQL.establecerConexion();
                 PreparedStatement sentencia = conexion.prepareStatement(sql);
         ) {
             sentencia.setDate(1, Date.valueOf(LocalDate.parse(desdeFecha, Excursion.FORMATO_FECHA)));

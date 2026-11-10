@@ -7,12 +7,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class GrupoDaoJdbc implements Dao <Grupo, Integer> {
+public class GrupoDaoMySQL implements Dao<Grupo, Integer> {
     @Override
     public Integer crear(Grupo grupo) {
         String sql = "INSERT INTO grupo(curso, etapa_educativa, cantidad_alumnos) VALUES (?,?,?)";
         try (
-                Connection conexion = Conexion.establecerConexion();
+                Connection conexion = ConexionMySQL.establecerConexion();
                 PreparedStatement sentencia = conexion.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
         ) {
             sentencia.setString(1, grupo.getCurso());
@@ -44,7 +44,7 @@ public class GrupoDaoJdbc implements Dao <Grupo, Integer> {
     public Optional<Grupo> encontrarPorID(Integer id) {
         String sql = "SELECT * FROM grupo WHERE id_grupo = ?";
         try (
-                Connection conexion = Conexion.establecerConexion();
+                Connection conexion = ConexionMySQL.establecerConexion();
                 PreparedStatement sentencia = conexion.prepareStatement(sql);
         ) {
             sentencia.setInt(1, id);
@@ -69,7 +69,7 @@ public class GrupoDaoJdbc implements Dao <Grupo, Integer> {
         List<Grupo> lista = new ArrayList<>();
         String sql = "SELECT * FROM grupo";
         try (
-                Connection conexion = Conexion.establecerConexion();
+                Connection conexion = ConexionMySQL.establecerConexion();
                 PreparedStatement sentencia = conexion.prepareStatement(sql);
                 ResultSet rs = sentencia.executeQuery();
         ) {
@@ -90,7 +90,7 @@ public class GrupoDaoJdbc implements Dao <Grupo, Integer> {
     public boolean borrar(Integer id) {
         String sql = "DELETE FROM grupo WHERE id_grupo = ?";
         try (
-                Connection conexion = Conexion.establecerConexion();
+                Connection conexion = ConexionMySQL.establecerConexion();
                 PreparedStatement sentencia = conexion.prepareStatement(sql);
         ) {
             sentencia.setInt(1, id);
@@ -105,7 +105,7 @@ public class GrupoDaoJdbc implements Dao <Grupo, Integer> {
     public boolean existeCurso (String curso){
         String sql = "SELECT * FROM grupo WHERE curso = ?";
         try (
-                Connection conexion = Conexion.establecerConexion();
+                Connection conexion = ConexionMySQL.establecerConexion();
                 PreparedStatement sentencia = conexion.prepareStatement(sql);
                 ) {
             sentencia.setString(1, curso);
@@ -120,7 +120,7 @@ public class GrupoDaoJdbc implements Dao <Grupo, Integer> {
     public boolean existeGrupo (Integer id){
         String sql = "SELECT * FROM grupo WHERE id_grupo = ?";
         try (
-                Connection conexion = Conexion.establecerConexion();
+                Connection conexion = ConexionMySQL.establecerConexion();
                 PreparedStatement sentencia = conexion.prepareStatement(sql);
         ) {
             sentencia.setInt(1, id);

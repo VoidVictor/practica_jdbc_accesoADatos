@@ -1,7 +1,7 @@
 package com.ies.serpis.service;
 
-import com.ies.serpis.dao.ExcursionDaoJdbc;
-import com.ies.serpis.dao.GrupoDaoJdbc;
+import com.ies.serpis.dao.ExcursionDaoMySQL;
+import com.ies.serpis.dao.GrupoDaoMySQL;
 import com.ies.serpis.exceptions.*;
 import com.ies.serpis.model.Grupo;
 
@@ -9,8 +9,8 @@ import java.util.List;
 
 public class GrupoService {
 
-    private final GrupoDaoJdbc dao = new GrupoDaoJdbc();
-    private final ExcursionDaoJdbc daoExcursion = new ExcursionDaoJdbc();
+    private final GrupoDaoMySQL dao = new GrupoDaoMySQL();
+    private final ExcursionDaoMySQL daoExcursion = new ExcursionDaoMySQL();
 
     public Integer crearGrupo (String curso, String etapaEducativa, int cantidadAlumnos){
 

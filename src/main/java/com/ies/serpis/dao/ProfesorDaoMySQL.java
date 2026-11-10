@@ -7,13 +7,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class ProfesorDaoJdbc implements Dao<Profesor, Integer>{
+public class ProfesorDaoMySQL implements Dao<Profesor, Integer> {
 
     @Override
     public Integer crear(Profesor profesor) {
         String sql = "INSERT INTO profesor (nombre, apellidos, anyo_nacimiento, telefono) VALUES (?,?,?,?)";
         try (
-                Connection conexion = Conexion.establecerConexion();
+                Connection conexion = ConexionMySQL.establecerConexion();
                 PreparedStatement sentencia = conexion.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
         ){
             sentencia.setString(1, profesor.getNombre());
@@ -47,7 +47,7 @@ public class ProfesorDaoJdbc implements Dao<Profesor, Integer>{
 
         String sql = "SELECT * FROM profesor WHERE id_profesor = ?";
         try(
-                Connection conexion = Conexion.establecerConexion();
+                Connection conexion = ConexionMySQL.establecerConexion();
                 PreparedStatement sentencia = conexion.prepareStatement(sql);
                 ) {
             sentencia.setInt(1, id);
@@ -74,7 +74,7 @@ public class ProfesorDaoJdbc implements Dao<Profesor, Integer>{
         List<Profesor> lista = new ArrayList<>();
         String sql = "SELECT * FROM profesor";
         try (
-                Connection conexion = Conexion.establecerConexion();
+                Connection conexion = ConexionMySQL.establecerConexion();
                 PreparedStatement sentencia = conexion.prepareStatement(sql);
                 ResultSet rs = sentencia.executeQuery();
                 ){
@@ -99,7 +99,7 @@ public class ProfesorDaoJdbc implements Dao<Profesor, Integer>{
                 "JOIN prof_excu pe ON pe.id_profesor = p.id_profesor " +
                 "WHERE pe.id_excursion = ?";
         try (
-                Connection conexion = Conexion.establecerConexion();
+                Connection conexion = ConexionMySQL.establecerConexion();
                 PreparedStatement sentencia = conexion.prepareStatement(sql);
         ) {
             sentencia.setInt(1, id);
