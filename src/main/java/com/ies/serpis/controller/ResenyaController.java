@@ -82,7 +82,7 @@ public class ResenyaController {
                             view.listarActividades(resenya.getActividades());
                             int posicion = pedirPosicion("Actividad que quieres modificar (indica el número)", resenya.getActividades().size());
                             String nombre = view.pedirString("Nuevo nombre de la actividad");
-                            int valoracion = view.pedirEntero("Nueva valoración");
+                            int valoracion = view.pedirEntero("Nueva valoración (del 1 al 5)");
                             resenya.getActividades().set(posicion, new Actividad(nombre, valoracion));
                         }
                     }
@@ -146,12 +146,12 @@ public class ResenyaController {
     }
 
     public void buscarPorValoracionGlobal(){
-        int valoracionGlobal = view.pedirEntero("Introduce la valoración global");
+        int valoracionGlobal = view.pedirEntero("Introduce la valoración global (del 1 al 5)");
         view.listarResenyas(serviceResenya.buscarPorValoracionGlobal(valoracionGlobal));
     }
 
     public void buscarPorValoracionActividades(){
-        int valoracion = view.pedirEntero("Introduce la valoración");
+        int valoracion = view.pedirEntero("Introduce la valoración (del 1 al 5)");
         view.listarResenyas(serviceResenya.buscarPorValoracionActividades(valoracion));
     }
 
