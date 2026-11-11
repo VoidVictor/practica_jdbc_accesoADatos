@@ -1,6 +1,7 @@
 package com.ies.serpis.app;
 
 import com.ies.serpis.controller.*;
+import com.ies.serpis.dao.ConexionMongo;
 import com.ies.serpis.service.ExcursionService;
 import com.ies.serpis.service.GrupoService;
 import com.ies.serpis.service.ProfesorService;
@@ -25,5 +26,7 @@ public class Application {
 
         Controller controller = new Controller(view, profesorController, grupoController, excursionController, resenyaController);
         controller.run();
+
+        ConexionMongo.close();
     }
 }

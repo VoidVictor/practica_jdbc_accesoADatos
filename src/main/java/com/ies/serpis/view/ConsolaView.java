@@ -46,7 +46,7 @@ public class ConsolaView {
     public int menuModificacionResenyas() {
         System.out.println("\n=========== MODIFICACIÓN DE RESEÑA ===========");
         System.out.println("1. Cambiar comentario");
-        System.out.println("2. Cambiar valoracion global");
+        System.out.println("2. Cambiar valoración global");
         System.out.println("3. Añadir actividad");
         System.out.println("4. Modificar actividad");
         System.out.println("5. Eliminar actividad");

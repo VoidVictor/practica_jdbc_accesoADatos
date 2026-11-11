@@ -64,7 +64,7 @@ public class Controller {
                     case 6 -> resenyaController.buscarPorValoracionGlobal();
                     case 7 -> resenyaController.buscarPorValoracionActividades();
                     case 8 -> resenyaController.listarResenyasConIncidencias();
-                    case 0 -> run();
+                    case 0 -> view.info("Volviendo al menú principal...");
                     default -> view.error("Opción inválida, inténtalo de nuevo.");
                 }
             } catch (ReglaNegocioException e) {

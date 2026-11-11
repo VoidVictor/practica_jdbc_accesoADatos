@@ -156,6 +156,7 @@ public class ResenyaController {
         view.info(serviceResenya.consultarResenya(id_excursion).toString());
         if (view.pedirString("¿Seguro/a de que quieres eliminar la reseña? (s/n)").equalsIgnoreCase("s")){
             if (serviceResenya.borrarResenya(id_excursion)) view.info("¡Reseña eliminada correctamente!");
+            else view.info("No se ha podido eliminar la reseña.");
         } else {
             view.info("Eliminación cancelada.");
         }
