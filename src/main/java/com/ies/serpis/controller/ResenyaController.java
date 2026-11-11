@@ -24,23 +24,18 @@ public class ResenyaController {
     }
 
     public void altaResenya() {
-        List<Excursion> excursionesFinalizadas = serviceExcursion.listarExcursionesFinalizadas();
-        if (excursionesFinalizadas.isEmpty()) {
-            view.info("No hay excursiones finalizadas para poder añadir una reseña.");
-            return;
-        }
-        view.listarExcursiones(excursionesFinalizadas);
+        if (!mostrarExcursionesFinalizadas("dar de alta")) return;
         int id_excursion = view.pedirEntero("A qué excursión quieres añadir una reseña (Indica su ID)");
         serviceResenya.validarExcursionParaResenya(id_excursion);
 
-        int valoracionGlobal = view.pedirEntero("Valoración global de la excursión");
+        int valoracionGlobal = view.pedirEntero("Valoración global de la excursión (del 1 al 5)");
         String comentario = view.pedirString("Comentario");
         view.info("VALORACIÓN DE LAS ACTIVIDADES");
         int contador = 1;
         List<Actividad> actividades = new ArrayList<>();
         while (true) {
             String nombre = view.pedirString("Nombre de la actividad " + contador);
-            int valoracion = view.pedirEntero("Valoración");
+            int valoracion = view.pedirEntero("Valoración (del 1 al 5)");
             actividades.add(new Actividad(nombre, valoracion));
             contador++;
             if (view.pedirString("¿Añadir otra actividad? (s/n)").equalsIgnoreCase("n")) break;
@@ -58,26 +53,15 @@ public class ResenyaController {
     }
 
     public void consultarResenya() {
-        List<Excursion> excursionesFinalizadas = serviceExcursion.listarExcursionesFinalizadas();
-        if (excursionesFinalizadas.isEmpty()) {
-            view.info("No hay excursiones finalizadas para poder consultar una reseña.");
-            return;
-        }
-        view.listarExcursiones(excursionesFinalizadas);
+        if (!mostrarExcursionesFinalizadas("consultar")) return;
         int id_excursion = view.pedirEntero("Qué reseña quieres consultar (Indica el ID de la excursión correspondiente)");
         view.info(serviceResenya.consultarResenya(id_excursion).toString());
     }
 
     public void modificarResenya() {
-        List<Excursion> excursionesFinalizadas = serviceExcursion.listarExcursionesFinalizadas();
-        if (excursionesFinalizadas.isEmpty()) {
-            view.info("No hay excursiones finalizadas para poder modificar una reseña.");
-            return;
-        }
-        view.listarExcursiones(excursionesFinalizadas);
+        if (!mostrarExcursionesFinalizadas("modificar")) return;
         int id_excursion = view.pedirEntero("Indica el ID de la excursión de la reseña que quieres modificar");
         Resenya resenya = serviceResenya.consultarResenya(id_excursion);
-
         boolean guardado = false;
         while (!guardado) {
             view.info("\n" + resenya);
@@ -85,10 +69,10 @@ public class ResenyaController {
             try {
                 switch (op) {
                     case 1 -> resenya.setComentario(view.pedirString("Nuevo comentario"));
-                    case 2 -> resenya.setValoracionGlobal(view.pedirEntero("Nueva valoración global"));
+                    case 2 -> resenya.setValoracionGlobal(view.pedirEntero("Nueva valoración global (del 1 al 5)"));
                     case 3 -> {
                         String nombre = view.pedirString("Nombre de la actividad");
-                        int valoracion = view.pedirEntero("Valoración");
+                        int valoracion = view.pedirEntero("Valoración (del 1 al 5)");
                         resenya.getActividades().add(new Actividad(nombre, valoracion));
                     }
                     case 4 -> {
@@ -146,12 +130,7 @@ public class ResenyaController {
     }
 
     public void eliminarResenya() {
-        List<Excursion> excursionesFinalizadas = serviceExcursion.listarExcursionesFinalizadas();
-        if (excursionesFinalizadas.isEmpty()) {
-            view.info("No hay excursiones finalizadas para poder eliminar una reseña.");
-            return;
-        }
-        view.listarExcursiones(excursionesFinalizadas);
+        if (!mostrarExcursionesFinalizadas("eliminar")) return;
         int id_excursion = view.pedirEntero("Indica el ID de la excursión de la reseña que quieres eliminar");
         view.info(serviceResenya.consultarResenya(id_excursion).toString());
         if (view.pedirString("¿Seguro/a de que quieres eliminar la reseña? (s/n)").equalsIgnoreCase("s")){
@@ -180,6 +159,8 @@ public class ResenyaController {
         view.listarResenyas(serviceResenya.buscarConIncidencias());
     }
 
+    // ------ MÉTODOS AUXILIARES ------
+
     private int pedirPosicion(String etiqueta, int tamanyo) {
         while (true) {
             int opcion = view.pedirEntero(etiqueta);
@@ -188,5 +169,15 @@ public class ResenyaController {
             }
             view.error("Opción inválida. Indica un número de la lista.");
         }
+    }
+
+    private boolean mostrarExcursionesFinalizadas(String accion) {
+        List<Excursion> excursionesFinalizadas = serviceExcursion.listarExcursionesFinalizadas();
+        if (excursionesFinalizadas.isEmpty()) {
+            view.info("No hay excursiones finalizadas para poder " + accion + " una reseña.");
+            return false;
+        }
+        view.listarExcursiones(excursionesFinalizadas);
+        return true;
     }
 }
