@@ -73,6 +73,10 @@ public class ExcursionService {
         return daoExcursion.encontrarFinalizadasEntreFechas(desdeFecha, hastaFecha);
     }
 
+    public List<Excursion> listarExcursionesFinalizadas() {
+        return daoExcursion.encontrarFinalizadas();
+    }
+
     // ------ VALIDACIONES ------
 
     private void validarGrupo (Integer id_grupo){

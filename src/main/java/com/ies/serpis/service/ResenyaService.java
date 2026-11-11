@@ -18,9 +18,7 @@ public class ResenyaService {
     private ExcursionDaoMySQL daoExcursion = new ExcursionDaoMySQL();
 
     public Integer altaResenya(Resenya resenya) {
-        if (!daoExcursion.existeExcursion(resenya.getId_excursion())) throw new ExcursionInvalidaException("La excursión no existe con ese ID.");
-        if (!daoExcursion.estaFinalizada(resenya.getId_excursion())) throw new ExcursionInvalidaException("La excursión no está finalizada.");
-        if (daoResenya.encontrarPorID(resenya.getId_excursion()).isPresent()) throw new ResenyaInvalidaException("La excursión ya tiene reseña.");
+        validarExcursionParaResenya(resenya.getId_excursion());
         validarResenya(resenya);
         return daoResenya.crear(resenya);
     }
@@ -68,6 +66,13 @@ public class ResenyaService {
 
 
     // ------- MÉTODOS AUXILIARES --------
+
+    public void validarExcursionParaResenya(int id_excursion) {
+        if (id_excursion <= 0) throw new IdInvalidoException("Los IDs empiezan a partir de 1.");
+        if (!daoExcursion.existeExcursion(id_excursion)) throw new ExcursionInvalidaException("La excursión no existe con ese ID.");
+        if (!daoExcursion.estaFinalizada(id_excursion)) throw new ExcursionInvalidaException("La excursión no está finalizada.");
+        if (daoResenya.encontrarPorID(id_excursion).isPresent()) throw new ResenyaInvalidaException("La excursión ya tiene reseña.");
+    }
 
     private void validarResenya(Resenya resenya) {
         if (resenya.getValoracionGlobal() < 1 || resenya.getValoracionGlobal() > 5) throw new ValoracionInvalidaException("La valoración global debe ser entre 1 y 5.");

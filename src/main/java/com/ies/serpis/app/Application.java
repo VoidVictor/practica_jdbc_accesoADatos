@@ -1,12 +1,10 @@
 package com.ies.serpis.app;
 
-import com.ies.serpis.controller.Controller;
-import com.ies.serpis.controller.ExcursionController;
-import com.ies.serpis.controller.GrupoController;
-import com.ies.serpis.controller.ProfesorController;
+import com.ies.serpis.controller.*;
 import com.ies.serpis.service.ExcursionService;
 import com.ies.serpis.service.GrupoService;
 import com.ies.serpis.service.ProfesorService;
+import com.ies.serpis.service.ResenyaService;
 import com.ies.serpis.view.ConsolaView;
 
 public class Application {
@@ -22,7 +20,10 @@ public class Application {
         ExcursionService excursionService = new ExcursionService();
         ExcursionController excursionController = new ExcursionController(view, excursionService, grupoService, profesorService);
 
-        Controller controller = new Controller(view, profesorController, grupoController, excursionController);
+        ResenyaService resenyaService = new ResenyaService();
+        ResenyaController resenyaController = new ResenyaController(view, resenyaService, excursionService);
+
+        Controller controller = new Controller(view, profesorController, grupoController, excursionController, resenyaController);
         controller.run();
     }
 }

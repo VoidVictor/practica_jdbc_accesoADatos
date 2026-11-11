@@ -88,13 +88,21 @@ public class Resenya {
 
     @Override
     public String toString() {
-        return "Resenya{" +
-                "id=" + id_excursion +
-                ", fechaCreacion='" + fechaCreacion + '\'' +
-                ", valoracion=" + valoracionGlobal +
-                ", comentario='" + comentario + '\'' +
-                ", actividades=" + actividades +
-                ", incidencias=" + incidencias +
-                '}';
+        String texto = "[Excursión " + id_excursion + "] " + fechaCreacion.format(Excursion.FORMATO_FECHA)
+                + " · Valoración global: " + valoracionGlobal + "/5"
+                + "\n   Comentario: " + comentario
+                + "\n   Actividades:";
+        for (Actividad actividad : actividades) {
+            texto += "\n     · " + actividad.getNombre() + " (" + actividad.getValoracion() + "/5)";
+        }
+        texto += "\n   Incidencias:";
+        if (incidencias.isEmpty()) {
+            texto += "\n     · Sin incidencias";
+        } else {
+            for (String incidencia : incidencias) {
+                texto += "\n     · " + incidencia;
+            }
+        }
+        return texto;
     }
 }

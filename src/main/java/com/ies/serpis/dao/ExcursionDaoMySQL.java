@@ -229,6 +229,29 @@ public class ExcursionDaoMySQL implements Dao<Excursion, Integer> {
         return lista;
     }
 
+    public List<Excursion> encontrarFinalizadas() {
+        List<Excursion> lista = new ArrayList<>();
+        String sql = "SELECT * FROM excursion WHERE estado = 'Finalizada' ORDER BY fecha";
+        try (
+                Connection conexion = ConexionMySQL.establecerConexion();
+                PreparedStatement sentencia = conexion.prepareStatement(sql);
+                ResultSet rs = sentencia.executeQuery();
+        ) {
+            while (rs.next()) {
+                lista.add(new Excursion(rs.getInt("id_excursion"),
+                        rs.getInt("id_grupo"),
+                        rs.getString("destino"),
+                        rs.getInt("duracion"),
+                        rs.getDate("fecha").toLocalDate().format(Excursion.FORMATO_FECHA),
+                        rs.getDouble("importe"),
+                        rs.getString("estado")));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("No se ha podido listar las excursiones finalizadas.", e);
+        }
+        return lista;
+    }
+
     @Override
     public boolean actualizar(Excursion excursion) {
         throw new UnsupportedOperationException("No está permitido actualizar todos los datos de una excursión.");

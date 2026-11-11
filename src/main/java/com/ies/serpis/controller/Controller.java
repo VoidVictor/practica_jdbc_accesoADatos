@@ -13,12 +13,14 @@ public class Controller {
     private final ProfesorController profesorController;
     private final GrupoController grupoController;
     private final ExcursionController excursionController;
+    private final ResenyaController resenyaController;
 
-    public Controller(ConsolaView view, ProfesorController profesorController, GrupoController grupoController, ExcursionController excursionController) {
+    public Controller(ConsolaView view, ProfesorController profesorController, GrupoController grupoController, ExcursionController excursionController, ResenyaController resenyaController) {
         this.view = view;
         this.profesorController = profesorController;
         this.grupoController = grupoController;
         this.excursionController = excursionController;
+        this.resenyaController = resenyaController;
     }
 
     public void run() {
@@ -36,7 +38,33 @@ public class Controller {
                     case 7 -> excursionController.finalizarExcursion();
                     case 8 -> excursionController.listarExcursionesConProfesores();
                     case 9 -> excursionController.listarFinalizadasEntreFechas();
+                    case 10 -> runResenyas();
                     case 0 -> view.info(mostrarDespedida());
+                    default -> view.error("Opción inválida, inténtalo de nuevo.");
+                }
+            } catch (ReglaNegocioException e) {
+                view.error(e.getMessage());
+            } catch (RuntimeException e) {
+                view.error("Error técnico: " + e.getMessage());
+            }
+        } while (op != 0);
+    }
+
+    public void runResenyas() {
+        int op;
+        do {
+            op = view.menuResenyas();
+            try {
+                switch (op) {
+                    case 1 -> resenyaController.altaResenya();
+                    case 2 -> resenyaController.consultarResenya();
+                    case 3 -> resenyaController.modificarResenya();
+                    case 4 -> resenyaController.eliminarResenya();
+                    case 5 -> resenyaController.listarResenyas();
+                    case 6 -> resenyaController.buscarPorValoracionGlobal();
+                    case 7 -> resenyaController.buscarPorValoracionActividades();
+                    case 8 -> resenyaController.listarResenyasConIncidencias();
+                    case 0 -> run();
                     default -> view.error("Opción inválida, inténtalo de nuevo.");
                 }
             } catch (ReglaNegocioException e) {
